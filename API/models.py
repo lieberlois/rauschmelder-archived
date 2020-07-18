@@ -11,3 +11,11 @@ class Drink(Base):
     name = Column("name",String )
     drink = Column("drink", String)
     timestamp = Column("timestamp", DateTime, default=datetime.datetime.utcnow)
+
+
+class Throw_Up(Base):
+    __tablename__ = "throw_up"
+
+    id = Column("id", Integer, primary_key=True, index=True)
+    name = Column("name", String)
+    timestamp = Column("timestamp", DateTime, default=datetime.datetime.utcnow)

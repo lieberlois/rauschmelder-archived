@@ -5,7 +5,7 @@ from sqlalchemy.orm import Session
 
 from database import engine, get_db
 import models
-from schemas import DrinkCreate
+from schemas import DrinkCreate, ThrowUpCreate
 
 app = FastAPI()
 models.Base.metadata.create_all(bind=engine)
@@ -23,18 +23,32 @@ app.add_middleware(
 )
 
 
-@app.get("/")
+@app.get("/drinks")
 def list_drinks(db: Session = Depends(get_db)):
     return db.query(models.Drink).all()
 
 
-@app.post("/")
+@app.post("/drinks")
 def create_drink(drink: DrinkCreate, db: Session = Depends(get_db)):
     db_drink = models.Drink(**drink.dict())
     db.add(db_drink)
     db.commit()
     db.refresh(db_drink)
     return db_drink
+
+
+@app.get("/throwups")
+def list_throwups(db: Session = Depends(get_db)):
+    return db.query(models.Throw_Up).all()
+
+
+@app.post("/throwups")
+def create_throwup(throwup: ThrowUpCreate, db: Session = Depends(get_db)):
+    db_throwup = models.Throw_Up(**throwup.dict())
+    db.add(db_throwup)
+    db.commit()
+    db.refresh(db_throwup)
+    return db_throwup
 
 
 if __name__ == '__main__':

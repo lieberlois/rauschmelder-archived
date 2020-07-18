@@ -17,5 +17,16 @@ class Drink(DrinkBase):
         orm_mode: True
 
 
+class ThrowUpBase(BaseModel):
+    name: str = Field(..., example="Schokofabi")
 
 
+class ThrowUpCreate(ThrowUpBase):
+    pass
+
+
+class ThrowUp(ThrowUpBase):
+    id: int
+
+    class Config:
+        orm_mode: True
