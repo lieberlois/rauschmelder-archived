@@ -1,8 +1,11 @@
 import uvicorn
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from database import engine, get_db
+import models
 
 app = FastAPI()
+models.Base.metadata.create_all(bind=engine)
 
 origins = [
     "*"
