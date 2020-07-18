@@ -1,12 +1,13 @@
-from sqlalchemy import Numeric, Column, Integer, String, DateTime, CheckConstraint, ForeignKey, Boolean
-from sqlalchemy.orm import relationship
+from sqlalchemy import Column, Integer, String,DateTime
+import datetime
 
 from database import Base
-import uuid
 
 
 class Drink(Base):
-    __tablename__ = "exams"
+    __tablename__ = "drinks"
 
     id = Column("id", Integer, primary_key=True, index=True)
-    # Add necessary Columns hereP
+    name = Column("name",String )
+    drink = Column("drink", String)
+    timestamp = Column("timestamp", DateTime, default=datetime.datetime.utcnow)

@@ -1,8 +1,11 @@
 import uvicorn
-from fastapi import FastAPI
+from fastapi import FastAPI, Depends
 from fastapi.middleware.cors import CORSMiddleware
+from sqlalchemy.orm import Session
+
 from database import engine, get_db
 import models
+from schemas import DrinkCreate
 
 app = FastAPI()
 models.Base.metadata.create_all(bind=engine)
@@ -21,8 +24,17 @@ app.add_middleware(
 
 
 @app.get("/")
-def example_route():
-    return {"Schoko": "Crew"}
+def list_drinks(db: Session = Depends(get_db)):
+    return db.query(models.Drink).all()
+
+
+@app.post("/")
+def create_drink(drink: DrinkCreate, db: Session = Depends(get_db)):
+    db_drink = models.Drink(**drink.dict())
+    db.add(db_drink)
+    db.commit()
+    db.refresh(db_drink)
+    return db_drink
 
 
 if __name__ == '__main__':
