@@ -25,8 +25,7 @@ const requests = {
 };
 
 const Drinks = {
-  drinksForUser: (username: string): Promise<IDrinkForUser[]> =>
-    requests.get(`/drinks/${username}`),
+  drinksForUser: (): Promise<IDrinkForUser[]> => requests.get(`/drinks`),
 
   create: (drink: IDrink): Promise<IDrink> => requests.post(`/drinks`, drink),
 };

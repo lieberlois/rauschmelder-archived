@@ -1,5 +1,22 @@
 .header {
   display: flex;
   flex-direction: row;
-  align-items: center;
+  width: 100%;
+  .part {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    color: white;
+  }
+  .left {
+    font-size: 1.5rem;
+    margin: 0; // Reset browser defaults
+  }
+
+  .icon-style {
+    width: 32px;
+    height: 32px;
+    margin-right: 10px;
+    cursor: pointer;
+  }
 }

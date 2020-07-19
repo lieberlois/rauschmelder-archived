@@ -28,3 +28,11 @@
     }
   }
 }
+
+.confirm-alert .cancel-button {
+  color: var(--ion-color-danger);
+}
+
+.confirm-alert .confirm-button {
+  color: var(--ion-color-success);
+}

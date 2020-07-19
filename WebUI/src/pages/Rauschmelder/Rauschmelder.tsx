@@ -4,6 +4,7 @@ import { Header } from '../../components/Header/Header';
 import "./Rauschmelder.scss";
 import Drinks from '../../util/agent';
 import { DrinkCard } from '../../components/DrinkCard/DrinkCard';
+import { availableDrinks } from '../../util/availableDrinks';
 
 const Rauschmelder: React.FC = () => {
 
@@ -29,13 +30,6 @@ const Rauschmelder: React.FC = () => {
     setShowConfirmAlert(true);
   }
 
-  const availableDrinks = [
-    "kirschgoiß",
-    "weizen",
-    "cocktail",
-    "shot"
-  ]
-
   return (
     <IonPage>
       <Header title={"Rauschmelder"} />
@@ -51,7 +45,7 @@ const Rauschmelder: React.FC = () => {
       <IonAlert
         isOpen={showConfirmAlert}
         onDidDismiss={() => setShowConfirmAlert(false)}
-        message={`${currentDrink.charAt(0).toUpperCase() + currentDrink.slice(1)} speichern?`}
+        message={`${currentDrink.charAt(0).toUpperCase() + currentDrink.slice(1)} saufen?`}
         header={'Bestätigung'}
         cssClass={"confirm-alert"}
         buttons={[
@@ -75,7 +69,7 @@ const Rauschmelder: React.FC = () => {
       <IonToast
         isOpen={showSuccessToast}
         onDidDismiss={() => setShowSuccessToast(false)}
-        message="Erfolgreich gespeichert."
+        message="Erfolgreich gesoffen!"
         color="success"
         duration={500}
       />
@@ -83,7 +77,7 @@ const Rauschmelder: React.FC = () => {
       <IonToast
         isOpen={showErrorToast}
         onDidDismiss={() => setShowErrorToast(false)}
-        message="Fehler beim Speichern"
+        message="Fehler beim Speichern!"
         color="danger"
         duration={500}
       />
