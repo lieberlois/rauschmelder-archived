@@ -22,14 +22,18 @@ import '@ionic/react/css/display.css';
 
 /* Theme variables */
 import './theme/variables.css';
+import { Sidebar } from './components/Sidebar/Sidebar';
+import Statistiken from './pages/Statistiken';
 
 const App: React.FC = () => {
 
   return (
     <IonApp>
       <IonReactRouter>
+        <Sidebar />
         <IonSplitPane contentId="main">
           <IonRouterOutlet id="main">
+            <Route path="/stats" component={Statistiken} exact />
             <Route path="/" component={Rauschmelder} />
           </IonRouterOutlet>
         </IonSplitPane>

@@ -1,11 +1,11 @@
 import { IonContent, IonPage, IonToast, IonAlert } from '@ionic/react';
 import React, { useState } from 'react';
-import { Header } from '../components/Header';
-import { DrinkCard } from '../components/DrinkCard';
+import { Header } from '../components/Header/Header';
 import "./Rauschmelder.scss";
 import Drinks from '../util/agent';
+import { DrinkCard } from '../components/DrinkCard/DrinkCard';
 
-const Page: React.FC = () => {
+const Rauschmelder: React.FC = () => {
 
   const [showSuccessToast, setShowSuccessToast] = useState(false);
   const [showErrorToast, setShowErrorToast] = useState(false);
@@ -59,7 +59,6 @@ const Page: React.FC = () => {
             text: 'Abbrechen',
             cssClass: 'cancel-button',
             handler: () => {
-              console.log("dismissed");
               setCurrentDrink("");
             }
           },
@@ -94,4 +93,4 @@ const Page: React.FC = () => {
   );
 };
 
-export default Page;
+export default Rauschmelder;

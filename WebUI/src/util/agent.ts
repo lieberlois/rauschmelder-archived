@@ -1,7 +1,8 @@
 import axios, { AxiosResponse } from "axios";
 import { IDrinkForUser, IDrink } from "../models/drink";
 
-axios.defaults.baseURL = "http://localhost:8000";
+axios.defaults.baseURL =
+  process.env.REACT_APP_BASE_URL ?? "http://localhost:8000";
 
 const responseBody = (response: AxiosResponse<any>) => response.data;
 
