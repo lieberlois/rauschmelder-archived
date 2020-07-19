@@ -2,13 +2,15 @@ import { IonCard, IonCardContent, IonImg } from "@ionic/react";
 import React from "react";
 
 interface IDrinkCardProps {
-  readonly drink: string
+  readonly drink: string;
+  readonly handleCreateDrink: (drinkname: string) => void;
+
 }
 
-export function DrinkCard({ drink }: IDrinkCardProps) {
+export function DrinkCard({ drink, handleCreateDrink }: IDrinkCardProps) {
 
   const handleClick = () => {
-    console.log(`${drink} clicked`)
+    handleCreateDrink(drink);
   }
 
   return (

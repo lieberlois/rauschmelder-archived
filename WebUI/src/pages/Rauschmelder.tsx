@@ -1,10 +1,40 @@
-import { IonContent, IonPage } from '@ionic/react';
-import React from 'react';
+import { IonContent, IonPage, IonToast, IonAlert } from '@ionic/react';
+import React, { useState } from 'react';
 import { Header } from '../components/Header';
 import { DrinkCard } from '../components/DrinkCard';
 import "./Rauschmelder.scss";
+import Drinks from '../util/agent';
 
 const Page: React.FC = () => {
+
+  const [showSuccessToast, setShowSuccessToast] = useState(false);
+  const [showErrorToast, setShowErrorToast] = useState(false);
+  const [showConfirmAlert, setShowConfirmAlert] = useState(false);
+  const [currentDrink, setCurrentDrink] = useState<string>("");
+
+  const createDrink = async (drink: string) => {
+    try {
+      await Drinks.create({
+        drink: drink,
+        name: "Example Name"
+      })
+      setShowSuccessToast(true);
+    } catch (error) {
+      setShowErrorToast(true);
+    }
+  }
+
+  const handleCreateDrink = (drink: string) => {
+    setCurrentDrink(drink);
+    setShowConfirmAlert(true);
+  }
+
+  const availableDrinks = [
+    "kirschgoiß",
+    "weizen",
+    "cocktail",
+    "shot"
+  ]
 
   return (
     <IonPage>
@@ -12,12 +42,53 @@ const Page: React.FC = () => {
 
       <IonContent>
         <div className="drink-container">
-          <DrinkCard drink={"goiss"} />
-          <DrinkCard drink={"weizen"} />
-          <DrinkCard drink={"cocktail"} />
-          <DrinkCard drink={"shot"} />
+          {availableDrinks.map(drink => (
+            <DrinkCard drink={drink} handleCreateDrink={handleCreateDrink} key={drink} />
+          ))}
         </div>
       </IonContent>
+
+      <IonAlert
+        isOpen={showConfirmAlert}
+        onDidDismiss={() => setShowConfirmAlert(false)}
+        message={`${currentDrink.charAt(0).toUpperCase() + currentDrink.slice(1)} speichern?`}
+        header={'Bestätigung'}
+        buttons={[
+          {
+            text: 'Ja',
+            cssClass: 'primary',
+            handler: () => {
+              createDrink(currentDrink);
+            }
+          },
+          {
+            text: 'Abbrechen',
+            cssClass: 'secondary',
+            handler: () => {
+              console.log("dismissed");
+              setCurrentDrink("");
+            }
+          }
+        ]}
+      />
+
+      <IonToast
+        isOpen={showSuccessToast}
+        onDidDismiss={() => setShowSuccessToast(false)}
+        message="Erfolgreich gespeichert."
+        color="success"
+        duration={500}
+      />
+
+      <IonToast
+        isOpen={showErrorToast}
+        onDidDismiss={() => setShowErrorToast(false)}
+        message="Fehler beim Speichern"
+        color="danger"
+        duration={500}
+      />
+
+
     </IonPage>
   );
 };

@@ -32,18 +32,20 @@ def list_drinks(db: Session = Depends(get_db)):
 
 @app.get("/drinks/{username}")
 def drinks_for_user(username: str, db: Session = Depends(get_db)):
+    # TODO: This is very very ugly!
     db_drinks: List[models.Drink] = db.query(models.Drink).filter(models.Drink.name == username).all()
     drinks_per_user = dict()
     for drink in db_drinks:
-        if drink.name not in drinks_per_user.keys():
-            drinks_per_user[drink.name] = dict()
-
-        if drink.drink in drinks_per_user[drink.name].keys():
-            drinks_per_user[drink.name][drink.drink] += 1
+        if drink.drink in drinks_per_user.keys():
+            drinks_per_user[drink.drink] += 1
         else:
-            drinks_per_user[drink.name][drink.drink] = 1
+            drinks_per_user[drink.drink] = 1
 
-    return drinks_per_user
+    result = []
+    for key in drinks_per_user.keys():
+        result.append({"drink": key, "amount": drinks_per_user[key]})
+
+    return result
 
 
 @app.post("/drinks")
@@ -72,6 +74,14 @@ def create_throwup(throwup: ThrowUpCreate, db: Session = Depends(get_db)):
 @app.get("/throwups/{username}")
 def throwup_count_for_user(username: str, db: Session = Depends(get_db)):
     return db.query(models.Throw_Up).filter(models.Throw_Up.name == username).count()
+
+
+@app.get("/username/{username}")
+def check_username_available(username: str, db: Session = Depends(get_db)):
+    throwup_count = db.query(models.Throw_Up).filter(models.Throw_Up.name == username).count()
+    drink_count = db.query(models.Drink).filter(models.Drink.name == username).count()
+
+    return throwup_count == 0 and drink_count == 0
 
 
 if __name__ == '__main__':
