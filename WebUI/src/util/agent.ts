@@ -1,8 +1,16 @@
 import axios, { AxiosResponse } from "axios";
 import { IDrinkForUser, IDrink } from "../models/drink";
+import { IUserRegister } from "../models/user";
+import qs from "qs";
+import { getBearerToken } from "./auth";
 
 axios.defaults.baseURL =
   process.env.REACT_APP_BASE_URL ?? "http://localhost:8000";
+
+axios.interceptors.request.use((config) => {
+  config.headers["Authorization"] = `Bearer ${getBearerToken()}`;
+  return config;
+});
 
 const responseBody = (response: AxiosResponse<any>) => response.data;
 
@@ -21,6 +29,15 @@ const Drinks = {
     requests.get(`/drinks/${username}`),
 
   create: (drink: IDrink): Promise<IDrink> => requests.post(`/drinks`, drink),
+};
+
+export const Auth = {
+  register: (user: IUserRegister) => requests.post("/auth/register", user),
+  login: (username: string, password: string) =>
+    requests.post("/auth/token", qs.stringify({ username, password }), {
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+    }),
+  me: () => requests.get("/auth/me"),
 };
 
 export default Drinks;

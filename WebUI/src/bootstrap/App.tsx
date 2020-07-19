@@ -1,8 +1,5 @@
-import Rauschmelder from './pages/Rauschmelder';
 import React from 'react';
 import { IonApp, IonRouterOutlet, IonSplitPane } from '@ionic/react';
-import { IonReactRouter } from '@ionic/react-router';
-import { Route } from 'react-router-dom';
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -21,23 +18,26 @@ import '@ionic/react/css/flex-utils.css';
 import '@ionic/react/css/display.css';
 
 /* Theme variables */
-import './theme/variables.css';
-import { Sidebar } from './components/Sidebar/Sidebar';
-import Statistiken from './pages/Statistiken';
+import '../theme/variables.css';
+import { Sidebar } from '../components/Sidebar/Sidebar';
+import { CurrentUserProvider } from './CurrentUserProvider';
+import { AuthRouting } from './AuthRouting';
+import { BrowserRouter } from 'react-router-dom';
 
 const App: React.FC = () => {
 
   return (
     <IonApp>
-      <IonReactRouter>
-        <Sidebar />
-        <IonSplitPane contentId="main">
-          <IonRouterOutlet id="main">
-            <Route path="/stats" component={Statistiken} exact />
-            <Route path="/" component={Rauschmelder} />
-          </IonRouterOutlet>
-        </IonSplitPane>
-      </IonReactRouter>
+      <CurrentUserProvider>
+        <BrowserRouter>
+          <Sidebar />
+          <IonSplitPane contentId="main">
+            <IonRouterOutlet id="main">
+              <AuthRouting />
+            </IonRouterOutlet>
+          </IonSplitPane>
+        </BrowserRouter>
+      </CurrentUserProvider>
     </IonApp>
   );
 };

@@ -1,15 +1,12 @@
-from typing import List
-
 import uvicorn
 from fastapi import FastAPI, Depends
 from fastapi.middleware.cors import CORSMiddleware
-from sqlalchemy.orm import Session
 
-from database import engine, get_db
 import models
-from schemas import DrinkCreate, ThrowUpCreate
+from database import engine, get_db
+from routers import auth_router, drinks_router, throwups_router
 
-app = FastAPI()
+app = FastAPI(debug=True)
 models.Base.metadata.create_all(bind=engine)
 
 origins = [
@@ -24,64 +21,26 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+app.include_router(
+    auth_router.router,
+    prefix="/auth",
+    tags=["Authentication"],
+    dependencies=[Depends(get_db)]
+)
 
-@app.get("/drinks")
-def list_drinks(db: Session = Depends(get_db)):
-    return db.query(models.Drink).all()
+app.include_router(
+    drinks_router.router,
+    prefix="/drinks",
+    tags=["Drinks"],
+    dependencies=[Depends(get_db)]
+)
 
-
-@app.get("/drinks/{username}")
-def drinks_for_user(username: str, db: Session = Depends(get_db)):
-    # TODO: This is very very ugly!
-    db_drinks: List[models.Drink] = db.query(models.Drink).filter(models.Drink.name == username).all()
-    drinks_per_user = dict()
-    for drink in db_drinks:
-        if drink.drink in drinks_per_user.keys():
-            drinks_per_user[drink.drink] += 1
-        else:
-            drinks_per_user[drink.drink] = 1
-
-    result = []
-    for key in drinks_per_user.keys():
-        result.append({"drink": key, "amount": drinks_per_user[key]})
-
-    return result
-
-
-@app.post("/drinks")
-def create_drink(drink: DrinkCreate, db: Session = Depends(get_db)):
-    db_drink = models.Drink(**drink.dict())
-    db.add(db_drink)
-    db.commit()
-    db.refresh(db_drink)
-    return db_drink
-
-
-@app.get("/throwups")
-def list_throwups(db: Session = Depends(get_db)):
-    return db.query(models.Throw_Up).all()
-
-
-@app.post("/throwups")
-def create_throwup(throwup: ThrowUpCreate, db: Session = Depends(get_db)):
-    db_throwup = models.Throw_Up(**throwup.dict())
-    db.add(db_throwup)
-    db.commit()
-    db.refresh(db_throwup)
-    return db_throwup
-
-
-@app.get("/throwups/{username}")
-def throwup_count_for_user(username: str, db: Session = Depends(get_db)):
-    return db.query(models.Throw_Up).filter(models.Throw_Up.name == username).count()
-
-
-@app.get("/username/{username}")
-def check_username_available(username: str, db: Session = Depends(get_db)):
-    throwup_count = db.query(models.Throw_Up).filter(models.Throw_Up.name == username).count()
-    drink_count = db.query(models.Drink).filter(models.Drink.name == username).count()
-
-    return throwup_count == 0 and drink_count == 0
+app.include_router(
+    throwups_router.router,
+    prefix="/throwups",
+    tags=["Throw Ups"],
+    dependencies=[Depends(get_db)]
+)
 
 
 if __name__ == '__main__':

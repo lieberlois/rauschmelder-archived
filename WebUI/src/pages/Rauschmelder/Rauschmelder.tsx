@@ -1,9 +1,9 @@
 import { IonContent, IonPage, IonToast, IonAlert } from '@ionic/react';
 import React, { useState } from 'react';
-import { Header } from '../components/Header/Header';
+import { Header } from '../../components/Header/Header';
 import "./Rauschmelder.scss";
-import Drinks from '../util/agent';
-import { DrinkCard } from '../components/DrinkCard/DrinkCard';
+import Drinks from '../../util/agent';
+import { DrinkCard } from '../../components/DrinkCard/DrinkCard';
 
 const Rauschmelder: React.FC = () => {
 

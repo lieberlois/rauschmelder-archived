@@ -1,0 +1,30 @@
+.login-form,
+.register-form {
+  // <IonHeader> is display: flex by default
+  ion-header .logo {
+    margin: auto auto;
+  }
+
+  ion-input {
+    border: 2px solid var(--ion-color-medium);
+    border-radius: 5px;
+    margin-bottom: 20px;
+  }
+
+  ion-button {
+    margin-top: 40px;
+  }
+
+  .container {
+    margin: 0 auto;
+    margin-top: 50px;
+
+    @media screen and (min-width: 768px) {
+      width: 50%;
+    }
+
+    @media screen and (min-width: 1200px) {
+      width: calc(100% / 3);
+    }
+  }
+}
