@@ -53,20 +53,21 @@ const Page: React.FC = () => {
         onDidDismiss={() => setShowConfirmAlert(false)}
         message={`${currentDrink.charAt(0).toUpperCase() + currentDrink.slice(1)} speichern?`}
         header={'Bestätigung'}
+        cssClass={"confirm-alert"}
         buttons={[
           {
-            text: 'Ja',
-            cssClass: 'primary',
-            handler: () => {
-              createDrink(currentDrink);
-            }
-          },
-          {
             text: 'Abbrechen',
-            cssClass: 'secondary',
+            cssClass: 'cancel-button',
             handler: () => {
               console.log("dismissed");
               setCurrentDrink("");
+            }
+          },
+          {
+            text: 'Bestätigen',
+            cssClass: 'confirm-button',
+            handler: () => {
+              createDrink(currentDrink);
             }
           }
         ]}
