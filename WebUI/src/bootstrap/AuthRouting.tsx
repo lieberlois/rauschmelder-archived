@@ -30,9 +30,9 @@ export function AuthRouting() {
         {
           !currentUser
             ? <>
-              <Route path="/login" component={Login} />
-              <Route path="/register" component={Register} />
-              <Redirect to="/login" />
+              <Route path="/login" component={Login} exact />
+              <Route path="/register" component={Register} exact />
+              <Route render={() => <Redirect to="/login" />} />
             </>
             : <>
               <Route path="/stats" component={Statistiken} exact />

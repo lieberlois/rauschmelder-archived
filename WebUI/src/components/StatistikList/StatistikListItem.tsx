@@ -9,13 +9,11 @@ interface IStatistikListItemProps {
 export function StatistikListItem({ drink, amount }: IStatistikListItemProps) {
 
   return (
-    <>
-      <IonCard className="ion-margin-bottom">
-        <IonCardContent>
-          <h1>{`${drink}: ${amount}`}</h1>
-        </IonCardContent>
-      </IonCard>
-    </>
+    <IonCard className="ion-margin-bottom">
+      <IonCardContent>
+        <h1>{`${drink}: ${amount}`}</h1>
+      </IonCardContent>
+    </IonCard>
   );
 
 }

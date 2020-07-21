@@ -33,39 +33,38 @@ export function Login() {
   }
 
   return (
-    <>
-      <IonPage className="register-form">
-        <Header title={"Login"} />
-        <IonLoading message="Einloggen..." duration={0} isOpen={loading} />
-        <IonContent>
 
-          <div className="ion-padding container">
-            <IonInput
-              placeholder="Nutzername"
-              onIonChange={(e: any) => setUsername(e.target.value)}
-              color="dark"
-            />
-            <IonInput
-              type="password"
-              placeholder="Passwort"
-              onIonChange={(e: any) => setPassword(e.target.value)}
-              color="dark"
-            />
-            <IonButton onClick={() => onSubmit()} expand="block">Login</IonButton>
-            <p className="ion-text-center">
-              Noch keinen Account erstellt? <Link to="/register">Registrieren</Link>
-            </p>
-          </div>
+    <IonPage className="register-form">
+      <Header title={"Login"} />
+      <IonLoading message="Einloggen..." duration={0} isOpen={loading} />
+      <IonContent>
 
-          <IonToast
-            isOpen={showErrorToast}
-            onDidDismiss={() => setShowErrorToast(false)}
-            message="Fehler beim Login"
-            color="danger"
-            duration={500}
+        <div className="ion-padding container">
+          <IonInput
+            placeholder="Nutzername"
+            onIonChange={(e: any) => setUsername(e.target.value)}
+            color="dark"
           />
-        </IonContent>
-      </IonPage>
-    </>
+          <IonInput
+            type="password"
+            placeholder="Passwort"
+            onIonChange={(e: any) => setPassword(e.target.value)}
+            color="dark"
+          />
+          <IonButton onClick={() => onSubmit()} expand="block">Login</IonButton>
+          <p className="ion-text-center">
+            Noch keinen Account erstellt? <Link to="/register">Registrieren</Link>
+          </p>
+        </div>
+
+        <IonToast
+          isOpen={showErrorToast}
+          onDidDismiss={() => setShowErrorToast(false)}
+          message="Fehler beim Login"
+          color="danger"
+          duration={500}
+        />
+      </IonContent>
+    </IonPage>
   )
 }

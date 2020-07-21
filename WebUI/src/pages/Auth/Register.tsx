@@ -48,44 +48,42 @@ export function Register() {
   }
 
   return (
-    <>
-      <IonPage className="register-form">
-        <Header title={"Registrieren"} />
-        <IonLoading message="Account erstellen..." duration={0} isOpen={loading} />
-        <IonContent>
-          <div className="ion-padding container">
-            <IonInput
-              placeholder="Nutzername"
-              onIonChange={(e: any) => setUsername(e.target.value)}
-              color="dark"
-            />
-            <IonInput
-              type="password"
-              placeholder="Passwort"
-              onIonChange={(e: any) => setPassword(e.target.value)}
-              color="dark"
-            />
-            <IonInput
-              type="password"
-              placeholder="Passwort bestätigen"
-              onIonChange={(e: any) => setCpassword(e.target.value)}
-              color="dark"
-            />
-            <IonButton onClick={() => onSubmit()} expand="block">Registrieren</IonButton>
-            <p className="ion-text-center">
-              Bereits einen Account erstellt? <Link to="/login">Einloggen</Link>
-            </p>
-          </div>
-
-          <IonToast
-            isOpen={showErrorToast}
-            onDidDismiss={() => setShowErrorToast(false)}
-            message={errorMessage}
-            color="danger"
-            duration={500}
+    <IonPage className="register-form">
+      <Header title={"Registrieren"} />
+      <IonLoading message="Account erstellen..." duration={0} isOpen={loading} />
+      <IonContent>
+        <div className="ion-padding container">
+          <IonInput
+            placeholder="Nutzername"
+            onIonChange={(e: any) => setUsername(e.target.value)}
+            color="dark"
           />
-        </IonContent>
-      </IonPage>
-    </>
+          <IonInput
+            type="password"
+            placeholder="Passwort"
+            onIonChange={(e: any) => setPassword(e.target.value)}
+            color="dark"
+          />
+          <IonInput
+            type="password"
+            placeholder="Passwort bestätigen"
+            onIonChange={(e: any) => setCpassword(e.target.value)}
+            color="dark"
+          />
+          <IonButton onClick={() => onSubmit()} expand="block">Registrieren</IonButton>
+          <p className="ion-text-center">
+            Bereits einen Account erstellt? <Link to="/login">Einloggen</Link>
+          </p>
+        </div>
+
+        <IonToast
+          isOpen={showErrorToast}
+          onDidDismiss={() => setShowErrorToast(false)}
+          message={errorMessage}
+          color="danger"
+          duration={500}
+        />
+      </IonContent>
+    </IonPage>
   )
 }
