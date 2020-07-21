@@ -53,7 +53,7 @@ export function Login() {
             />
             <IonButton onClick={() => onSubmit()} expand="block">Login</IonButton>
             <p className="ion-text-center">
-              Noch keinen Account erstellt? <Link to="/register">Einloggen</Link>
+              Noch keinen Account erstellt? <Link to="/register">Registrieren</Link>
             </p>
           </div>
 

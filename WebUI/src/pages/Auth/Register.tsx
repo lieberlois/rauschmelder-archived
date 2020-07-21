@@ -50,7 +50,7 @@ export function Register() {
   return (
     <>
       <IonPage className="register-form">
-        <Header title={"Login"} />
+        <Header title={"Registrieren"} />
         <IonLoading message="Account erstellen..." duration={0} isOpen={loading} />
         <IonContent>
           <div className="ion-padding container">
