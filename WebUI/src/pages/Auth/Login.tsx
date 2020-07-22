@@ -1,20 +1,22 @@
 import { useState } from "react";
 import React from "react";
 import { IonPage, IonLoading, IonContent, IonInput, IonButton, IonToast } from "@ionic/react";
-import { Link, useHistory } from "react-router-dom";
+import { Link, RouteComponentProps } from "react-router-dom";
 import { Header } from "../../components/Header/Header";
 import "./Auth.scss";
 import { Auth } from "../../util/agent";
 import { setBearerToken } from "../../util/auth";
 import { useCurrentUser } from "../../bootstrap/CurrentUserProvider";
 
-export function Login() {
+interface IProps extends RouteComponentProps { }
+
+export const Login: React.FC<IProps> = (props) => {
   const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [loading, setLoading] = useState(false);
   const { setCurrentUser } = useCurrentUser();
   const [showErrorToast, setShowErrorToast] = useState(false);
-  const history = useHistory();
+  const { history } = props;
 
   const onSubmit = async () => {
     setLoading(true);
@@ -24,7 +26,7 @@ export function Login() {
       const user = await Auth.me();
       setCurrentUser(user);
       setLoading(false);
-      history.push("/");
+      history.push("/")
     } catch (error) {
       console.log(error)
       setShowErrorToast(true);
@@ -35,7 +37,7 @@ export function Login() {
   return (
 
     <IonPage className="register-form">
-      <Header title={"Login"} />
+      <Header title={"Login"} isAuthenticated={false} {...props} />
       <IonLoading message="Einloggen..." duration={0} isOpen={loading} />
       <IonContent>
 

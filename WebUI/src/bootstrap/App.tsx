@@ -1,5 +1,7 @@
 import React from 'react';
-import { IonApp, IonRouterOutlet, IonSplitPane } from '@ionic/react';
+import { IonApp } from '@ionic/react';
+
+import { IonReactRouter } from '@ionic/react-router';
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -19,24 +21,17 @@ import '@ionic/react/css/display.css';
 
 /* Theme variables */
 import '../theme/variables.css';
-import { Sidebar } from '../components/Sidebar/Sidebar';
 import { CurrentUserProvider } from './CurrentUserProvider';
-import { AuthRouting } from './AuthRouting';
-import { BrowserRouter } from 'react-router-dom';
+import AuthRouting from './AuthRouting';
 
 const App: React.FC = () => {
 
   return (
     <IonApp>
       <CurrentUserProvider>
-        <BrowserRouter>
-          <Sidebar />
-          <IonSplitPane contentId="main">
-            <IonRouterOutlet id="main">
-              <AuthRouting />
-            </IonRouterOutlet>
-          </IonSplitPane>
-        </BrowserRouter>
+        <IonReactRouter>
+          <AuthRouting />
+        </IonReactRouter>
       </CurrentUserProvider>
     </IonApp>
   );

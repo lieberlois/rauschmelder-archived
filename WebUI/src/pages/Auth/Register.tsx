@@ -1,23 +1,25 @@
 import { useState } from "react";
 import { useCurrentUser } from "../../bootstrap/CurrentUserProvider";
-import { useHistory, Link } from "react-router-dom";
+import { Link, RouteComponentProps } from "react-router-dom";
 import React from "react";
 import { IonPage, IonLoading, IonContent, IonInput, IonButton, IonToast } from "@ionic/react";
 import { Header } from "../../components/Header/Header";
 import { Auth } from "../../util/agent";
 import { setBearerToken } from "../../util/auth";
 
-export function Register() {
+interface IProps extends RouteComponentProps { }
+
+export const Register: React.FC<IProps> = (props) => {
   const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [cpassword, setCpassword] = useState<string>("");
   const [errorMessage, setErrorMessage] = useState<string>("Fehler beim Registrieren");
+  const { history } = props;
 
 
   const [loading, setLoading] = useState(false);
   const { setCurrentUser } = useCurrentUser();
   const [showErrorToast, setShowErrorToast] = useState(false);
-  const history = useHistory();
 
   const showError = (message?: string) => {
     const oldMsg = errorMessage;
@@ -49,7 +51,7 @@ export function Register() {
 
   return (
     <IonPage className="register-form">
-      <Header title={"Registrieren"} />
+      <Header title={"Registrieren"} isAuthenticated={false} {...props} />
       <IonLoading message="Account erstellen..." duration={0} isOpen={loading} />
       <IonContent>
         <div className="ion-padding container">

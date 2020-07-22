@@ -4,14 +4,17 @@ import { Header } from "../components/Header/Header";
 import { StatistikList } from "../components/StatistikList/StatistikList";
 import { useLoad } from "../hooks/UseLoad";
 import Drinks from "../util/agent";
+import { RouteComponentProps } from "react-router";
 
-const Statistiken: React.FC = () => {
+interface IProps extends RouteComponentProps { }
+
+const Statistiken: React.FC<IProps> = (props) => {
 
   const [exams, isExamsLoading] = useLoad(async () => await Drinks.drinksForUser(), []);
 
   return (
     <IonPage>
-      <Header title={"Statistiken"} />
+      <Header title={"Statistiken"} {...props} />
 
       <IonContent className="ion-padding">
         {

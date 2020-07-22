@@ -15,11 +15,12 @@ import {
   beerOutline,
   statsChartOutline,
 } from "ionicons/icons";
-import { useHistory } from "react-router";
 import "./Sidebar.scss";
+import { RouteComponentProps } from "react-router-dom";
 
-export function Sidebar() {
-  const history = useHistory();
+interface IProps extends RouteComponentProps { }
+
+export const Sidebar: React.FC<IProps> = ({ history }) => {
 
   return (
     <>

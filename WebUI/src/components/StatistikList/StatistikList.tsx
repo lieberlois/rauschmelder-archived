@@ -11,7 +11,7 @@ export function StatistikList({ drinkStats }: IStatistikListProps) {
   return (
     <>
       {drinkStats.sort((a, b) => a.drink.localeCompare(b.drink)).map((drinkStat) => (
-        <StatistikListItem drink={drinkStat.drink} amount={drinkStat.amount} />
+        <StatistikListItem drink={drinkStat.drink} amount={drinkStat.amount} key={drinkStat.drink} />
       ))}
     </>
   );

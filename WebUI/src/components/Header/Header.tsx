@@ -4,16 +4,16 @@ import "./Header.scss";
 import { powerOutline } from "ionicons/icons";
 import { useCurrentUser } from "../../bootstrap/CurrentUserProvider";
 import { deleteBearerToken } from "../../util/auth";
-import { useHistory } from "react-router-dom";
+import { RouteComponentProps } from "react-router-dom";
 
-interface IHeaderProps {
+interface IProps extends RouteComponentProps {
   readonly title: string
+  readonly isAuthenticated?: boolean;
 }
 
-export function Header({ title }: IHeaderProps) {
+export function Header({ history, title, isAuthenticated = true }: IProps) {
 
   const [showConfirmAlert, setShowConfirmAlert] = useState(false);
-  const history = useHistory();
   const { setCurrentUser } = useCurrentUser();
 
   const logout = () => {
@@ -31,9 +31,12 @@ export function Header({ title }: IHeaderProps) {
             <IonMenuButton />
           </IonButtons>
           <IonTitle>{title}</IonTitle>
-          <IonButtons slot="end">
-            <IonIcon icon={powerOutline} className="icon-style" onClick={() => setShowConfirmAlert(true)} />
-          </IonButtons>
+          {
+            isAuthenticated &&
+            <IonButtons slot="end">
+              <IonIcon icon={powerOutline} className="icon-style" onClick={() => setShowConfirmAlert(true)} />
+            </IonButtons>
+          }
         </IonToolbar>
 
       </IonHeader>

@@ -5,8 +5,11 @@ import "./Rauschmelder.scss";
 import Drinks from '../../util/agent';
 import { DrinkCard } from '../../components/DrinkCard/DrinkCard';
 import { availableDrinks } from '../../util/availableDrinks';
+import { RouteComponentProps } from 'react-router';
 
-const Rauschmelder: React.FC = () => {
+interface IProps extends RouteComponentProps { }
+
+const Rauschmelder: React.FC<IProps> = (props) => {
 
   const [showSuccessToast, setShowSuccessToast] = useState(false);
   const [showErrorToast, setShowErrorToast] = useState(false);
@@ -32,7 +35,7 @@ const Rauschmelder: React.FC = () => {
 
   return (
     <IonPage>
-      <Header title={"Rauschmelder"} />
+      <Header title={"Rauschmelder"} {...props} />
 
       <IonContent>
         <div className="drink-container">

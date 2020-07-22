@@ -1,15 +1,18 @@
 import React, { useState } from "react";
-import { Route, Redirect } from "react-router";
+import { Route, Redirect, RouteComponentProps, withRouter } from "react-router";
 import { useCurrentUser } from "./CurrentUserProvider";
 import { Auth } from "../util/agent";
 import { useAsyncEffect } from "../hooks/UseAsyncEffect";
-import { IonLoading } from "@ionic/react";
+import { IonLoading, IonRouterOutlet, IonSplitPane } from "@ionic/react";
 import { Login } from "../pages/Auth/Login";
 import { Register } from "../pages/Auth/Register";
 import Rauschmelder from "../pages/Rauschmelder/Rauschmelder";
 import Statistiken from "../pages/Statistiken";
+import { Sidebar } from "../components/Sidebar/Sidebar";
 
-export function AuthRouting() {
+interface IProps extends RouteComponentProps { }
+
+const AuthRouting: React.FC<IProps> = (props: IProps) => {
   const { currentUser, setCurrentUser } = useCurrentUser();
   const [authenticating, setAuthenticating] = useState(true);
 
@@ -29,16 +32,30 @@ export function AuthRouting() {
       : <>
         {
           !currentUser
-            ? <>
-              <Route path="/login" component={Login} exact />
-              <Route path="/register" component={Register} exact />
-              <Route render={() => <Redirect to="/login" />} />
-            </>
-            : <>
-              <Route path="/stats" component={Statistiken} exact />
-              <Route path="/" component={Rauschmelder} exact />
+            ?
+            <IonSplitPane contentId="main">
+              <IonRouterOutlet id="main">
+                <Route path="/login" component={Login} exact />
+                <Route path="/register" component={Register} exact />
+                <Route path="/" render={() => <Redirect to="/login" />} />
+              </IonRouterOutlet>
+            </IonSplitPane>
+
+            :
+            <>
+              <Sidebar {...props} />
+              <IonSplitPane contentId="main">
+
+                <IonRouterOutlet id="main">
+                  <Route path="/stats" render={() => { return <Statistiken {...props} /> }} exact />
+                  <Route path="/" render={() => { return <Rauschmelder {...props} /> }} exact />
+                  <Route path="/" return={<Redirect to="/" />} />
+                </IonRouterOutlet>
+              </IonSplitPane>
             </>
         }
       </>
   )
 }
+
+export default withRouter(AuthRouting);
