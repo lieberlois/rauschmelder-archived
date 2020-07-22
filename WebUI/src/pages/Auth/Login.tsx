@@ -37,7 +37,7 @@ export const Login: React.FC<IProps> = (props) => {
   return (
 
     <IonPage className="register-form">
-      <Header title={"Login"} isAuthenticated={false} {...props} />
+      <Header title={"Login"} {...props} />
       <IonLoading message="Einloggen..." duration={0} isOpen={loading} />
       <IonContent>
 

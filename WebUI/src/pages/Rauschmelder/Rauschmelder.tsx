@@ -1,6 +1,6 @@
 import { IonContent, IonPage, IonToast, IonAlert } from '@ionic/react';
 import React, { useState } from 'react';
-import { Header } from '../../components/Header/Header';
+import { AuthHeader } from '../../components/Header/AuthHeader';
 import "./Rauschmelder.scss";
 import Drinks from '../../util/agent';
 import { DrinkCard } from '../../components/DrinkCard/DrinkCard';
@@ -35,7 +35,7 @@ const Rauschmelder: React.FC<IProps> = (props) => {
 
   return (
     <IonPage>
-      <Header title={"Rauschmelder"} {...props} />
+      <AuthHeader title={"Rauschmelder"} {...props} />
 
       <IonContent>
         <div className="drink-container">

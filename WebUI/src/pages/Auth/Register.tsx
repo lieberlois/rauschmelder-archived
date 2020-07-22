@@ -51,7 +51,7 @@ export const Register: React.FC<IProps> = (props) => {
 
   return (
     <IonPage className="register-form">
-      <Header title={"Registrieren"} isAuthenticated={false} {...props} />
+      <Header title={"Registrieren"} {...props} />
       <IonLoading message="Account erstellen..." duration={0} isOpen={loading} />
       <IonContent>
         <div className="ion-padding container">

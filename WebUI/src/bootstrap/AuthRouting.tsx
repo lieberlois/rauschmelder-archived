@@ -33,17 +33,20 @@ const AuthRouting: React.FC<IProps> = (props: IProps) => {
         {
           !currentUser
             ?
+
             <IonSplitPane contentId="main">
               <IonRouterOutlet id="main">
-                <Route path="/login" component={Login} exact />
-                <Route path="/register" component={Register} exact />
+                <Route path="/login" render={() => { return <Login {...props} /> }} exact />
+                <Route path="/register" render={() => { return <Register {...props} /> }} exact />
                 <Route path="/" render={() => <Redirect to="/login" />} />
               </IonRouterOutlet>
             </IonSplitPane>
 
+
             :
             <>
               <Sidebar {...props} />
+
               <IonSplitPane contentId="main">
 
                 <IonRouterOutlet id="main">
@@ -53,6 +56,7 @@ const AuthRouting: React.FC<IProps> = (props: IProps) => {
                 </IonRouterOutlet>
               </IonSplitPane>
             </>
+
         }
       </>
   )

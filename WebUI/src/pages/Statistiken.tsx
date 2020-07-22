@@ -1,6 +1,6 @@
 import React from "react";
 import { IonPage, IonContent, IonLoading } from "@ionic/react";
-import { Header } from "../components/Header/Header";
+import { AuthHeader } from "../components/Header/AuthHeader";
 import { StatistikList } from "../components/StatistikList/StatistikList";
 import { useLoad } from "../hooks/UseLoad";
 import Drinks from "../util/agent";
@@ -14,7 +14,7 @@ const Statistiken: React.FC<IProps> = (props) => {
 
   return (
     <IonPage>
-      <Header title={"Statistiken"} {...props} />
+      <AuthHeader title={"Statistiken"} {...props} />
 
       <IonContent className="ion-padding">
         {

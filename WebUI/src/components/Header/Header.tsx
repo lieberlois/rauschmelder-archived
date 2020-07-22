@@ -1,27 +1,13 @@
-import { IonHeader, IonMenuButton, IonIcon, IonToolbar, IonTitle, IonButtons, IonAlert } from "@ionic/react";
-import React, { useState } from "react";
+import { IonHeader, IonMenuButton, IonToolbar, IonTitle, IonButtons } from "@ionic/react";
+import React from "react";
 import "./Header.scss";
-import { powerOutline } from "ionicons/icons";
-import { useCurrentUser } from "../../bootstrap/CurrentUserProvider";
-import { deleteBearerToken } from "../../util/auth";
 import { RouteComponentProps } from "react-router-dom";
 
 interface IProps extends RouteComponentProps {
   readonly title: string
-  readonly isAuthenticated?: boolean;
 }
 
-export function Header({ history, title, isAuthenticated = true }: IProps) {
-
-  const [showConfirmAlert, setShowConfirmAlert] = useState(false);
-  const { setCurrentUser } = useCurrentUser();
-
-  const logout = () => {
-    setCurrentUser(null);
-    deleteBearerToken();
-    history.push("/login");
-  }
-
+export function Header({ title }: IProps) {
   return (
     <>
       <IonHeader className="header">
@@ -31,38 +17,9 @@ export function Header({ history, title, isAuthenticated = true }: IProps) {
             <IonMenuButton />
           </IonButtons>
           <IonTitle>{title}</IonTitle>
-          {
-            isAuthenticated &&
-            <IonButtons slot="end">
-              <IonIcon icon={powerOutline} className="icon-style" onClick={() => setShowConfirmAlert(true)} />
-            </IonButtons>
-          }
         </IonToolbar>
 
       </IonHeader>
-      <IonAlert
-        isOpen={showConfirmAlert}
-        onDidDismiss={() => setShowConfirmAlert(false)}
-        message={`Wirklich ausloggen?`}
-        header={'Logout'}
-        cssClass={"confirm-alert"}
-        buttons={[
-          {
-            text: 'Abbrechen',
-            cssClass: 'cancel-button',
-            handler: () => {
-
-            }
-          },
-          {
-            text: 'Ja',
-            cssClass: 'confirm-button',
-            handler: () => {
-              logout();
-            }
-          }
-        ]}
-      />
     </>
   );
 }
