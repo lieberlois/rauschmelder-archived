@@ -4,7 +4,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 import models
 from database import engine, get_db
-from routers import auth_router, drinks_router, throwups_router
+from routers import auth_router, drinks_router, throwups_router, events_router
 
 app = FastAPI(debug=True)
 models.Base.metadata.create_all(bind=engine)
@@ -25,6 +25,13 @@ app.include_router(
     auth_router.router,
     prefix="/auth",
     tags=["Authentication"],
+    dependencies=[Depends(get_db)]
+)
+
+app.include_router(
+    events_router.router,
+    prefix="/events",
+    tags=["Events"],
     dependencies=[Depends(get_db)]
 )
 

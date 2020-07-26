@@ -1,6 +1,6 @@
 from typing import List
 
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 
 import models
@@ -37,6 +37,10 @@ def drinks_for_user(db: Session = Depends(get_db), current_user: User = Depends(
 
 @router.post("/")
 def create_drink(drink: DrinkCreate, db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
+    db_event = db.query(models.Event).get(drink.event_id)
+    if db_event is None:
+        raise HTTPException(status_code=404, detail="Event not found")
+
     drink_dict = drink.dict()
     drink_dict["user_id"] = current_user.id
     db_drink = models.Drink(**drink_dict)
