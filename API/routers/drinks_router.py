@@ -20,7 +20,7 @@ def list_drinks(db: Session = Depends(get_db)):
 @router.get("/")
 def drinks_for_user(db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
     # TODO: This is very very ugly!
-    db_drinks: List[models.Drink] = db.query(models.Drink).filter(models.Drink.name == current_user.username).all()
+    db_drinks: List[models.Drink] = db.query(models.Drink).filter(models.Drink.user_id == current_user.id).all()
     drinks_per_user = dict()
     for drink in db_drinks:
         if drink.drink in drinks_per_user.keys():
@@ -38,7 +38,7 @@ def drinks_for_user(db: Session = Depends(get_db), current_user: User = Depends(
 @router.post("/")
 def create_drink(drink: DrinkCreate, db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
     drink_dict = drink.dict()
-    drink_dict["name"] = current_user.username
+    drink_dict["user_id"] = current_user.id
     db_drink = models.Drink(**drink_dict)
     db.add(db_drink)
     db.commit()
