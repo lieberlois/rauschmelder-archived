@@ -3,7 +3,7 @@ import { IonPage, IonContent, IonLoading } from "@ionic/react";
 import { AuthHeader } from "../components/Header/AuthHeader";
 import { StatistikList } from "../components/StatistikList/StatistikList";
 import { useLoad } from "../hooks/UseLoad";
-import Drinks from "../util/agent";
+import {Drinks} from "../util/agent";
 import { RouteComponentProps } from "react-router";
 
 interface IProps extends RouteComponentProps { }

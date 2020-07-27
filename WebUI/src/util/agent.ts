@@ -24,7 +24,7 @@ const requests = {
     axios.post(url, formData, config).then(responseBody),
 };
 
-const Drinks = {
+export const Drinks = {
   drinksForUser: (): Promise<IDrinkForUser[]> => requests.get(`/drinks`),
   create: (drink: IDrink): Promise<IDrink> => requests.post(`/drinks`, drink),
 };
@@ -38,4 +38,6 @@ export const Auth = {
   me: () => requests.get("/auth/me"),
 };
 
-export default Drinks;
+export const Admin = {
+  acquireAdminStatus: (secret: string) => requests.post("/admin/acquireadmin", {secret: secret})
+}

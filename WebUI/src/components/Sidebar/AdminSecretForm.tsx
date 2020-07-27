@@ -5,17 +5,27 @@ import {
   IonItem,
   IonLabel,
 } from "@ionic/react";
+import { Admin, Auth } from "../../util/agent";
+import { useCurrentUser } from "../../bootstrap/CurrentUserProvider";
 
 interface IProps {
-  readonly onSave: () => void
+  closeModal: (success: boolean) => void
 }
 
-export function AdminSecretForm(props: IProps) {
+export function AdminSecretForm({closeModal}: IProps) {
 
   const [adminKey, setAdminKey] = useState("")
+  const { setCurrentUser } = useCurrentUser();
 
-  const handleSend = () => {
-    alert(adminKey);
+  const handleSend = async () => {
+      try {
+        await Admin.acquireAdminStatus(adminKey);
+        const user = await Auth.me();
+        setCurrentUser(user);
+        closeModal(true);
+      } catch {
+        closeModal(false);   
+      }
   }
 
   return (
@@ -36,4 +46,4 @@ export function AdminSecretForm(props: IProps) {
 
     // Add a toast with success or not
   );
-}
+  }

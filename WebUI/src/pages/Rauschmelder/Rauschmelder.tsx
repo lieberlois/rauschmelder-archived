@@ -2,7 +2,7 @@ import { IonContent, IonPage, IonToast, IonAlert } from '@ionic/react';
 import React, { useState } from 'react';
 import { AuthHeader } from '../../components/Header/AuthHeader';
 import "./Rauschmelder.scss";
-import Drinks from '../../util/agent';
+import {Drinks} from '../../util/agent';
 import { DrinkCard } from '../../components/DrinkCard/DrinkCard';
 import { availableDrinks } from '../../util/availableDrinks';
 import { RouteComponentProps } from 'react-router';

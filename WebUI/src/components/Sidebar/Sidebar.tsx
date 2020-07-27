@@ -10,7 +10,8 @@ import {
   IonMenu,
   IonToolbar,
   IonMenuToggle,
-  IonModal
+  IonModal,
+  IonToast
 } from "@ionic/react";
 import {
   beerOutline,
@@ -30,6 +31,19 @@ interface IProps extends RouteComponentProps {
 export const Sidebar: React.FC<IProps> = ({ history, user }) => {
 
   const [showModal, setShowModal] = useState(false);
+  const [showAdminToast, setShowAdminToast] = useState(false);
+  const [adminSuccess, setAdminSuccess] = useState(false);
+
+  const handleAdminAttempt = (success: boolean) => {
+    setShowModal(false);
+    setAdminSuccess(success);
+    setShowAdminToast(true);
+  }
+
+  const resetNotificationValues = () => {
+    setShowAdminToast(false);
+    setAdminSuccess(false);
+  }
 
   return (
     <>
@@ -78,17 +92,23 @@ export const Sidebar: React.FC<IProps> = ({ history, user }) => {
                 )}
             </IonList>
           </IonMenuToggle>
-          <IonModal isOpen={showModal} onDidDismiss={() => setShowModal(false)} >
+          <IonModal isOpen={showModal} onDidDismiss={() => setShowModal(false)}>
             <div className="ion-padding">
-              <AdminSecretForm onSave={() => {
-                setShowModal(false);
-              }} />
+              <AdminSecretForm closeModal={handleAdminAttempt} />
             </div>
           </IonModal>
         </IonContent>
       </IonMenu>
 
       <div id="menu-anchor" />
+
+      <IonToast
+          isOpen={showAdminToast}
+          onDidDismiss={() => resetNotificationValues()}
+          message={adminSuccess ? "Du bist jetzt ein Admin!" : "Falscher Schlüssel!"}
+          color={adminSuccess ? "success" : "danger"}
+          duration={500}
+        />
     </>
   );
 }
