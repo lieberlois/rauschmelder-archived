@@ -6,6 +6,12 @@ export interface IDrink {
   event_id?: number;
 }
 
+export interface IDrinksForEvent {
+  event_id: number;
+  event_name: string;
+  drinks: IDrinkForUser[];
+}
+
 export interface IDrinkForUser {
   drink: string;
   amount: number;

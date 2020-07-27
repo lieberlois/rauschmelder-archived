@@ -1,8 +1,8 @@
 import axios, { AxiosResponse } from "axios";
-import { IDrinkForUser, IDrink } from "../models/drink";
+import { IDrinkForUser, IDrink, IDrinksForEvent } from "../models/drink";
 import { IUserRegister } from "../models/user";
 import qs from "qs";
-import { getBearerToken, getEventId } from "./localStorage";
+import { getBearerToken } from "./localStorage";
 import { IEvent } from "../models/event";
 
 axios.defaults.baseURL =
@@ -26,7 +26,7 @@ const requests = {
 };
 
 export const Drinks = {
-  drinksForUser: (): Promise<IDrinkForUser[]> => requests.get(`/drinks`),
+  drinksForEvent: (): Promise<IDrinksForEvent[]> => requests.get(`/drinks`),
   create: (drink: IDrink): Promise<IDrink> => requests.post(`/drinks`, drink),
 };
 

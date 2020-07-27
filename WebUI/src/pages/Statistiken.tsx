@@ -10,8 +10,7 @@ interface IProps extends RouteComponentProps { }
 
 const Statistiken: React.FC<IProps> = (props) => {
 
-    // TODO: Drinks for User per Event
-  const [stats, isStatsLoading] = useLoad(async () => await Drinks.drinksForUser(), []);
+  const [stats, isStatsLoading] = useLoad(async () => await Drinks.drinksForEvent(), []);
 
   return (
     <IonPage>
@@ -22,7 +21,7 @@ const Statistiken: React.FC<IProps> = (props) => {
           isStatsLoading ? (
             <IonLoading message="Laden..." duration={0} isOpen={true} />
           ) : (
-              <StatistikList drinkStats={stats} />
+              <StatistikList eventStats={stats} />
             )
         }
 

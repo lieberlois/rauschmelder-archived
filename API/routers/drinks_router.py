@@ -20,19 +20,23 @@ def list_drinks(db: Session = Depends(get_db)):
 @router.get("/")
 def drinks_for_user(db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
     # TODO: This is very very ugly!
-    db_drinks: List[models.Drink] = db.query(models.Drink).filter(models.Drink.user_id == current_user.id).all()
-    drinks_per_user = dict()
-    for drink in db_drinks:
-        if drink.drink in drinks_per_user.keys():
-            drinks_per_user[drink.drink] += 1
-        else:
-            drinks_per_user[drink.drink] = 1
+    db_events: List[models.Event] = db.query(models.Event).all()
+    res = []
+    for event in db_events:
+        drinks_per_user = dict()
+        for drink in event.drinks:
+            if drink.drink in drinks_per_user.keys():
+                drinks_per_user[drink.drink] += 1
+            else:
+                drinks_per_user[drink.drink] = 1
 
-    result = []
-    for key in drinks_per_user.keys():
-        result.append({"drink": key, "amount": drinks_per_user[key]})
+        result = []
+        for key in drinks_per_user.keys():
+            result.append({"drink": key, "amount": drinks_per_user[key]})
+        if len(result) > 0:
+            res.append({"event_id": event.id, "event_name": event.name, "drinks": result})
 
-    return result
+    return res
 
 
 @router.post("/")
