@@ -66,7 +66,7 @@ export const Login: React.FC<IProps> = (props) => {
           onDidDismiss={() => setShowErrorToast(false)}
           message="Fehler beim Login"
           color="danger"
-          duration={500}
+          duration={1000}
         />
       </IonContent>
     </IonPage>

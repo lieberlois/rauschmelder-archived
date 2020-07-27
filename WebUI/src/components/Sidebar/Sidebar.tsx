@@ -107,7 +107,7 @@ export const Sidebar: React.FC<IProps> = ({ history, user }) => {
           onDidDismiss={() => resetNotificationValues()}
           message={adminSuccess ? "Du bist jetzt ein Admin!" : "Falscher Schlüssel!"}
           color={adminSuccess ? "success" : "danger"}
-          duration={500}
+          duration={1000}
         />
     </>
   );

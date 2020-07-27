@@ -83,7 +83,7 @@ export const Register: React.FC<IProps> = (props) => {
           onDidDismiss={() => setShowErrorToast(false)}
           message={errorMessage}
           color="danger"
-          duration={500}
+          duration={1000}
         />
       </IonContent>
     </IonPage>

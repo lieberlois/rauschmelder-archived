@@ -1,5 +1,5 @@
 import axios, { AxiosResponse } from "axios";
-import { IDrinkForUser, IDrink, IDrinksForEvent } from "../models/drink";
+import { IDrink, IDrinksForEvent } from "../models/drink";
 import { IUserRegister } from "../models/user";
 import qs from "qs";
 import { getBearerToken } from "./localStorage";

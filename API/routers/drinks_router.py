@@ -25,10 +25,11 @@ def drinks_for_user(db: Session = Depends(get_db), current_user: User = Depends(
     for event in db_events:
         drinks_per_user = dict()
         for drink in event.drinks:
-            if drink.drink in drinks_per_user.keys():
-                drinks_per_user[drink.drink] += 1
-            else:
-                drinks_per_user[drink.drink] = 1
+            if drink.user_id == current_user.id:
+                if drink.drink in drinks_per_user.keys():
+                    drinks_per_user[drink.drink] += 1
+                else:
+                    drinks_per_user[drink.drink] = 1
 
         result = []
         for key in drinks_per_user.keys():

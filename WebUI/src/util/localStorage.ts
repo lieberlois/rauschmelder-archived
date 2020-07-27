@@ -10,6 +10,7 @@ export function setBearerToken(token: string) {
 }
 
 export function deleteBearerToken() {
+  deleteEventId();
   localStorage.removeItem(bearerTokenKey);
 }
 

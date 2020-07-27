@@ -1,3 +1,5 @@
+from typing import List
+
 from sqlalchemy import Column, Integer, String, DateTime, ForeignKey, Boolean
 import datetime
 
@@ -41,6 +43,6 @@ class Event(Base):
     name = Column("name", String, nullable=False)
     start_date = Column("start_date", DateTime, nullable=False)
     end_date = Column("end_date", DateTime, nullable=False)
-    drinks = relationship("Drink", backref="drinks", lazy=False)
-    throwups = relationship("Throwup", backref="throwups", lazy=False)
+    drinks: List[Drink] = relationship("Drink", backref="drinks", lazy=False)
+    throwups: List[Throwup] = relationship("Throwup", backref="throwups", lazy=False)
 
