@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, DateTime, ForeignKey
+from sqlalchemy import Column, Integer, String, DateTime, ForeignKey, Boolean
 import datetime
 
 from sqlalchemy.orm import relationship
@@ -31,6 +31,7 @@ class User(Base):
     id = Column("id", Integer, primary_key=True, index=True)
     username = Column("username", String, unique=True, nullable=False)
     password = Column("password", String, nullable=False)
+    isadmin = Column("isadmin", Boolean, nullable=False, default=False)
 
 
 class Event(Base):

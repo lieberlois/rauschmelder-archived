@@ -44,7 +44,7 @@ class ThrowUp(ThrowUpBase):
 
 class EventBase(BaseModel):
     # TODO: Start and End-Date
-    name: str
+    name: str = Field(..., example="Hütte 2020")
 
 
 class EventCreate(EventBase):
@@ -74,7 +74,7 @@ class BaseUser(BaseModel):
 
 
 class UserRegister(BaseUser):
-    password: str
+    password: str = Field(..., example="password123")
 
     class Config:
         min_anystr_length = 4
@@ -87,6 +87,7 @@ class UserInDB(BaseUser):
 
 class User(BaseUser):
     id: int
+    isadmin: bool
 
     class Config:
         orm_mode = True

@@ -28,6 +28,8 @@ def drinks_for_event(event_id: int, db: Session = Depends(get_db), current_user:
 
 @router.post("/")
 def create_event(event: EventCreate, db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
+    if not current_user.isadmin:
+        raise HTTPException(status_code=401, detail="You have to be an admin to perform this action.")
     event_dict = event.dict()
     db_event = models.Event(**event_dict)
     db.add(db_event)

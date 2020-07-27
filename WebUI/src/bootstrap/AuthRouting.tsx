@@ -45,7 +45,7 @@ const AuthRouting: React.FC<IProps> = (props: IProps) => {
 
             :
             <>
-              <Sidebar {...props} />
+              <Sidebar user={currentUser} {...props} />
 
               <IonSplitPane contentId="main">
 

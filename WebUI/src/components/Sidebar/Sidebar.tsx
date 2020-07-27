@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   IonContent,
   IonHeader,
@@ -10,17 +10,26 @@ import {
   IonMenu,
   IonToolbar,
   IonMenuToggle,
+  IonModal
 } from "@ionic/react";
 import {
   beerOutline,
   statsChartOutline,
+  settingsOutline,
+  helpCircleOutline,
 } from "ionicons/icons";
 import "./Sidebar.scss";
 import { RouteComponentProps } from "react-router-dom";
+import { IUser } from "../../models/user";
+import { AdminSecretForm } from "./AdminSecretForm";
 
-interface IProps extends RouteComponentProps { }
+interface IProps extends RouteComponentProps {
+  user: IUser;
+}
 
-export const Sidebar: React.FC<IProps> = ({ history }) => {
+export const Sidebar: React.FC<IProps> = ({ history, user }) => {
+
+  const [showModal, setShowModal] = useState(false);
 
   return (
     <>
@@ -48,8 +57,34 @@ export const Sidebar: React.FC<IProps> = ({ history }) => {
                 <IonIcon icon={statsChartOutline} />
                 <IonLabel>Eigene Statistik</IonLabel>
               </IonItem>
+
+              {user.isadmin ? (
+                <>
+                  <IonListHeader className="ion-margin-top">
+                    <IonLabel>Administration</IonLabel>
+                  </IonListHeader>
+                  <IonItem button onClick={() => alert("TODO")}>
+                    <IonIcon icon={settingsOutline} />
+                    <IonLabel>Events</IonLabel>
+                  </IonItem>
+                </>
+              ) : (
+                  <>
+                    <IonItem button onClick={() => setShowModal(true)}>
+                      <IonIcon icon={helpCircleOutline} />
+                      <IonLabel>Admin werden</IonLabel>
+                    </IonItem>
+                  </>
+                )}
             </IonList>
           </IonMenuToggle>
+          <IonModal isOpen={showModal} onDidDismiss={() => setShowModal(false)} >
+            <div className="ion-padding">
+              <AdminSecretForm onSave={() => {
+                setShowModal(false);
+              }} />
+            </div>
+          </IonModal>
         </IonContent>
       </IonMenu>
 

@@ -2,3 +2,4 @@
 venv
 rauschmelder.db
 **/__pycache__
+.env

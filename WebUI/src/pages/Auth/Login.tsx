@@ -10,6 +10,8 @@ import { useCurrentUser } from "../../bootstrap/CurrentUserProvider";
 
 interface IProps extends RouteComponentProps { }
 
+// TODO: We should add better error handling (axios response codes!)
+
 export const Login: React.FC<IProps> = (props) => {
   const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
