@@ -1,0 +1,18 @@
+.event-item-text {
+    .event-date {
+        margin-top: 8px;
+        margin-bottom: 6px;
+    }
+
+    .event-title {
+        margin-top: 5px;
+    }
+}
+
+.event-card {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}

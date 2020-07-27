@@ -1,10 +1,11 @@
-import { IonHeader, IonMenuButton, IonIcon, IonToolbar, IonTitle, IonButtons, IonAlert, IonPopover, IonList, IonItem } from "@ionic/react";
+import { IonHeader, IonMenuButton, IonIcon, IonToolbar, IonTitle, IonButtons, IonAlert, IonPopover, IonList, IonItem, IonModal } from "@ionic/react";
 import React, { useState, SyntheticEvent } from "react";
 import "./Header.scss";
 import { powerOutline, settingsOutline, searchOutline } from "ionicons/icons";
 import { useCurrentUser } from "../../bootstrap/CurrentUserProvider";
-import { deleteBearerToken } from "../../util/auth";
+import { deleteBearerToken } from "../../util/localStorage";
 import { RouteComponentProps } from "react-router-dom";
+import { EventSelectorModal } from "../EventSelector/EventSelectorModal";
 
 interface IProps extends RouteComponentProps {
   readonly title: string
@@ -20,6 +21,7 @@ export function AuthHeader({ history, title }: IProps) {
 
   const [showConfirmAlert, setShowConfirmAlert] = useState(false);
   const [showPopover, setShowPopover] = useState<IShowPopover>({ show: false });
+  const [showEventModal, setShowEventModal] = useState(false);
 
   const { setCurrentUser } = useCurrentUser();
 
@@ -40,13 +42,13 @@ export function AuthHeader({ history, title }: IProps) {
           <IonTitle>{title}</IonTitle>
 
           <IonButtons slot="end">
-            <IonIcon 
-              icon={settingsOutline} 
-              className="icon-style" 
+            <IonIcon
+              icon={settingsOutline}
+              className="icon-style"
               // onClick=
               onClick={e => {
                 e.persist();
-                setShowPopover( { show: true, event: e } );
+                setShowPopover({ show: true, event: e });
               }}
             />
           </IonButtons>
@@ -56,19 +58,25 @@ export function AuthHeader({ history, title }: IProps) {
         <IonPopover
           isOpen={showPopover.show}
           event={showPopover.event?.nativeEvent}
-          onDidDismiss={() => setShowPopover( { show: false, event: undefined } )}>
+          onDidDismiss={() => setShowPopover({ show: false, event: undefined })}>
           <IonList lines="none">
-            <IonItem onClick={() => setShowConfirmAlert(true)}  button>
-              <IonIcon 
+            <IonItem onClick={() => {
+              setShowEventModal(true);
+              setShowPopover({ show: false, event: undefined });
+            }} button>
+              <IonIcon
                 className="menu-item"
-                icon={searchOutline} 
+                icon={searchOutline}
               />
               Partyauswahl
             </IonItem>
-            <IonItem onClick={() => setShowConfirmAlert(true)}  button>
-              <IonIcon 
+            <IonItem onClick={() => {
+              setShowConfirmAlert(true);
+              setShowPopover({ show: false, event: undefined });
+            }} button>
+              <IonIcon
                 className="menu-item"
-                icon={powerOutline} 
+                icon={powerOutline}
               />
               Logout
             </IonItem>
@@ -100,6 +108,11 @@ export function AuthHeader({ history, title }: IProps) {
           }
         ]}
       />
+      <IonModal isOpen={showEventModal} onDidDismiss={() => setShowEventModal(false)}>
+        {/* <div className="ion-padding"> */}
+        <EventSelectorModal closeModal={() => { }} />
+        {/* </div> */}
+      </IonModal>
     </>
   );
 }

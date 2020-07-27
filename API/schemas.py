@@ -1,6 +1,7 @@
 from typing import Optional
 
 from pydantic import BaseModel, Field
+from datetime import datetime
 
 
 class DrinkBase(BaseModel):
@@ -45,6 +46,8 @@ class ThrowUp(ThrowUpBase):
 class EventBase(BaseModel):
     # TODO: Start and End-Date
     name: str = Field(..., example="Hütte 2020")
+    start_date: datetime
+    end_date: datetime
 
 
 class EventCreate(EventBase):

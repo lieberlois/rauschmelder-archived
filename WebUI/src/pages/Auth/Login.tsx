@@ -5,7 +5,7 @@ import { Link, RouteComponentProps } from "react-router-dom";
 import { Header } from "../../components/Header/Header";
 import "./Auth.scss";
 import { Auth } from "../../util/agent";
-import { setBearerToken } from "../../util/auth";
+import { setBearerToken } from "../../util/localStorage";
 import { useCurrentUser } from "../../bootstrap/CurrentUserProvider";
 
 interface IProps extends RouteComponentProps { }

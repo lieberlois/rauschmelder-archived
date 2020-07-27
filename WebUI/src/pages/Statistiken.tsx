@@ -10,6 +10,7 @@ interface IProps extends RouteComponentProps { }
 
 const Statistiken: React.FC<IProps> = (props) => {
 
+    // TODO: Drinks for User per Event
   const [stats, isStatsLoading] = useLoad(async () => await Drinks.drinksForUser(), []);
 
   return (

@@ -39,8 +39,8 @@ class Event(Base):
 
     id = Column("id", Integer, primary_key=True, index=True)
     name = Column("name", String, nullable=False)
+    start_date = Column("start_date", DateTime, nullable=False)
+    end_date = Column("end_date", DateTime, nullable=False)
     drinks = relationship("Drink", backref="drinks", lazy=False)
     throwups = relationship("Throwup", backref="throwups", lazy=False)
-
-
 

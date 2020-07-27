@@ -2,7 +2,8 @@ import axios, { AxiosResponse } from "axios";
 import { IDrinkForUser, IDrink } from "../models/drink";
 import { IUserRegister } from "../models/user";
 import qs from "qs";
-import { getBearerToken } from "./auth";
+import { getBearerToken, getEventId } from "./localStorage";
+import { IEvent } from "../models/event";
 
 axios.defaults.baseURL =
   process.env.REACT_APP_BASE_URL ?? "http://localhost:8000";
@@ -37,6 +38,11 @@ export const Auth = {
     }),
   me: () => requests.get("/auth/me"),
 };
+
+export const Events = {
+  getCurrent: (): Promise<IEvent[]> => requests.get("/events"),
+  validateEvent: (id: number): Promise<IEvent> => requests.get(`/events/${id}`)
+}
 
 export const Admin = {
   acquireAdminStatus: (secret: string) => requests.post("/admin/acquireadmin", {secret: secret})

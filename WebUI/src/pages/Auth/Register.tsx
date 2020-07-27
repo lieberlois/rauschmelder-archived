@@ -5,7 +5,7 @@ import React from "react";
 import { IonPage, IonLoading, IonContent, IonInput, IonButton, IonToast } from "@ionic/react";
 import { Header } from "../../components/Header/Header";
 import { Auth } from "../../util/agent";
-import { setBearerToken } from "../../util/auth";
+import { setBearerToken } from "../../util/localStorage";
 
 interface IProps extends RouteComponentProps { }
 
