@@ -2,9 +2,9 @@ from datetime import timedelta, datetime
 from typing import Optional
 
 import jwt
+from jwt import PyJWTError
 from fastapi import Depends, HTTPException
 from fastapi.security import OAuth2PasswordBearer
-from jwt import PyJWTError
 from passlib.context import CryptContext
 from sqlalchemy.orm import Session
 from starlette import status

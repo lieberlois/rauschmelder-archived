@@ -20,7 +20,7 @@ const Rauschmelder: React.FC<IProps> = (props) => {
     try {
       await Drinks.create({
         drink: drink,
-        name: "Example Name"
+        event_id: 1  // TODO: how do we create events?
       })
       setShowSuccessToast(true);
     } catch (error) {

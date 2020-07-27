@@ -43,6 +43,7 @@ class ThrowUp(ThrowUpBase):
 
 
 class EventBase(BaseModel):
+    # TODO: Start and End-Date
     name: str
 
 

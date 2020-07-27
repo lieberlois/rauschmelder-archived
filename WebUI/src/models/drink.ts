@@ -3,6 +3,7 @@ export interface IDrink {
   name?: string;
   drink?: string;
   timestamp?: string;
+  event_id?: number;
 }
 
 export interface IDrinkForUser {
