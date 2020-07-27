@@ -1,7 +1,7 @@
-import { IonHeader, IonMenuButton, IonIcon, IonToolbar, IonTitle, IonButtons, IonAlert } from "@ionic/react";
-import React, { useState } from "react";
+import { IonHeader, IonMenuButton, IonIcon, IonToolbar, IonTitle, IonButtons, IonAlert, IonPopover, IonList, IonItem } from "@ionic/react";
+import React, { useState, SyntheticEvent } from "react";
 import "./Header.scss";
-import { powerOutline } from "ionicons/icons";
+import { powerOutline, settingsOutline, searchOutline } from "ionicons/icons";
 import { useCurrentUser } from "../../bootstrap/CurrentUserProvider";
 import { deleteBearerToken } from "../../util/auth";
 import { RouteComponentProps } from "react-router-dom";
@@ -10,9 +10,17 @@ interface IProps extends RouteComponentProps {
   readonly title: string
 }
 
+interface IShowPopover {
+  readonly show: boolean,
+  readonly event?: SyntheticEvent
+}
+
+
 export function AuthHeader({ history, title }: IProps) {
 
   const [showConfirmAlert, setShowConfirmAlert] = useState(false);
+  const [showPopover, setShowPopover] = useState<IShowPopover>({ show: false });
+
   const { setCurrentUser } = useCurrentUser();
 
   const logout = () => {
@@ -32,10 +40,41 @@ export function AuthHeader({ history, title }: IProps) {
           <IonTitle>{title}</IonTitle>
 
           <IonButtons slot="end">
-            <IonIcon icon={powerOutline} className="icon-style" onClick={() => setShowConfirmAlert(true)} />
+            <IonIcon 
+              icon={settingsOutline} 
+              className="icon-style" 
+              // onClick=
+              onClick={e => {
+                e.persist();
+                setShowPopover( { show: true, event: e } );
+              }}
+            />
           </IonButtons>
 
         </IonToolbar>
+
+        <IonPopover
+          isOpen={showPopover.show}
+          event={showPopover.event?.nativeEvent}
+          onDidDismiss={() => setShowPopover( { show: false, event: undefined } )}>
+          <IonList lines="none">
+            <IonItem onClick={() => setShowConfirmAlert(true)}  button>
+              <IonIcon 
+                className="menu-item"
+                icon={searchOutline} 
+              />
+              Partyauswahl
+            </IonItem>
+            <IonItem onClick={() => setShowConfirmAlert(true)}  button>
+              <IonIcon 
+                className="menu-item"
+                icon={powerOutline} 
+              />
+              Logout
+            </IonItem>
+          </IonList>
+        </IonPopover>
+
 
       </IonHeader>
       <IonAlert

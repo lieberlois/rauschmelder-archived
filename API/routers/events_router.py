@@ -4,9 +4,11 @@ from sqlalchemy.orm import Session
 import models
 from auth import get_current_user
 from database import get_db
-from schemas import DrinkCreate, User, EventCreate
+from schemas import User, EventCreate
 
 router = APIRouter()
+
+# TODO: What exactly do we do with events? Enter a code? Select from a list? Also: validation (start/end date)
 
 
 @router.get("/list")

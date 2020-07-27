@@ -27,6 +27,7 @@ class Throwup(Base):
 
 class User(Base):
     __tablename__ = "users"
+    
     id = Column("id", Integer, primary_key=True, index=True)
     username = Column("username", String, unique=True, nullable=False)
     password = Column("password", String, nullable=False)
@@ -34,6 +35,7 @@ class User(Base):
 
 class Event(Base):
     __tablename__ = "events"
+
     id = Column("id", Integer, primary_key=True, index=True)
     name = Column("name", String, nullable=False)
     drinks = relationship("Drink", backref="drinks", lazy=False)
