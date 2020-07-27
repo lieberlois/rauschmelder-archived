@@ -10,7 +10,7 @@ interface IProps extends RouteComponentProps { }
 
 const Statistiken: React.FC<IProps> = (props) => {
 
-  const [exams, isExamsLoading] = useLoad(async () => await Drinks.drinksForUser(), []);
+  const [stats, isStatsLoading] = useLoad(async () => await Drinks.drinksForUser(), []);
 
   return (
     <IonPage>
@@ -18,10 +18,10 @@ const Statistiken: React.FC<IProps> = (props) => {
 
       <IonContent className="ion-padding">
         {
-          isExamsLoading ? (
+          isStatsLoading ? (
             <IonLoading message="Laden..." duration={0} isOpen={true} />
           ) : (
-              <StatistikList drinkStats={exams} />
+              <StatistikList drinkStats={stats} />
             )
         }
 
