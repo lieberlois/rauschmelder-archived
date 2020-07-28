@@ -41,7 +41,10 @@ export const Auth = {
 
 export const Events = {
   getCurrent: (): Promise<IEvent[]> => requests.get("/events"),
-  validateEvent: (id: number): Promise<IEvent> => requests.get(`/events/${id}`)
+  validateEvent: (id: number): Promise<IEvent> => requests.get(`/events/validate/${id}`),
+  list: (): Promise<IEvent[]> => requests.get("/events/list"),
+  create: (event: IEvent): Promise<IEvent> => requests.post("/events", event),
+  delete: (event_id: number) => requests.delete(`/events/${event_id}`)
 }
 
 export const Admin = {

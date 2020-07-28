@@ -5,7 +5,7 @@ import { powerOutline, settingsOutline, searchOutline } from "ionicons/icons";
 import { useCurrentUser } from "../../bootstrap/CurrentUserProvider";
 import { deleteBearerToken } from "../../util/localStorage";
 import { RouteComponentProps } from "react-router-dom";
-import { EventSelectorModal } from "../EventSelector/EventSelectorModal";
+import { EventSelectorModal } from "../Events/EventSelectorModal";
 
 interface IProps extends RouteComponentProps {
   readonly title: string
@@ -109,9 +109,7 @@ export function AuthHeader({ history, title }: IProps) {
         ]}
       />
       <IonModal isOpen={showEventModal} onDidDismiss={() => setShowEventModal(false)}>
-        {/* <div className="ion-padding"> */}
         <EventSelectorModal closeModal={() => { }} />
-        {/* </div> */}
       </IonModal>
     </>
   );

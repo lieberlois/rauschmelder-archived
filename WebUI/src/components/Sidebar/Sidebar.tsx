@@ -77,7 +77,7 @@ export const Sidebar: React.FC<IProps> = ({ history, user }) => {
                   <IonListHeader className="ion-margin-top">
                     <IonLabel>Administration</IonLabel>
                   </IonListHeader>
-                  <IonItem button onClick={() => alert("TODO")}>
+                  <IonItem button onClick={() => history.push("/events")}>
                     <IonIcon icon={settingsOutline} />
                     <IonLabel>Events</IonLabel>
                   </IonItem>

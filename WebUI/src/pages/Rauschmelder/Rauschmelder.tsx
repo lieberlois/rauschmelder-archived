@@ -6,7 +6,7 @@ import { Drinks, Events } from '../../util/agent';
 import { DrinkCard } from '../../components/DrinkCard/DrinkCard';
 import { availableDrinks } from '../../util/availableDrinks';
 import { RouteComponentProps } from 'react-router';
-import { EventSelectorModal } from '../../components/EventSelector/EventSelectorModal';
+import { EventSelectorModal } from '../../components/Events/EventSelectorModal';
 import { getEventId, deleteEventId } from '../../util/localStorage';
 import { useAsyncEffect } from '../../hooks/UseAsyncEffect';
 
@@ -24,7 +24,7 @@ const Rauschmelder: React.FC<IProps> = (props) => {
   const [showSelectedEventToast, setShowSelectedEventToast] = useState(false);
 
   useAsyncEffect(async () => {
-    if (currentEvent) {
+    if (currentEvent && currentEvent !== -1) {
       try {
         await Events.validateEvent(currentEvent)
       } catch {
@@ -32,6 +32,7 @@ const Rauschmelder: React.FC<IProps> = (props) => {
         setShowEventModal(true);
       }
     } else {
+      deleteEventId();
       setShowEventModal(true);
     }
     setLoading(false)
@@ -41,7 +42,7 @@ const Rauschmelder: React.FC<IProps> = (props) => {
     try {
       await Drinks.create({
         drink: drink,
-        event_id: getEventId() 
+        event_id: getEventId()
       })
       setShowSuccessToast(true);
     } catch (error) {
@@ -115,18 +116,16 @@ const Rauschmelder: React.FC<IProps> = (props) => {
               duration={1000}
             />
 
-<IonToast
-          isOpen={showSelectedEventToast}
-          onDidDismiss={() => setShowSelectedEventToast(false)}
-          message={"Viel Spaß beim Saufen!"}
-          color={"success"}
-          duration={1000}
-        />
+            <IonToast
+              isOpen={showSelectedEventToast}
+              onDidDismiss={() => setShowSelectedEventToast(false)}
+              message={"Viel Spaß beim Saufen!"}
+              color={"success"}
+              duration={1000}
+            />
 
             <IonModal isOpen={showEventModal} backdropDismiss={false} onDidDismiss={() => setShowEventModal(false)}>
-              <div className="ion-padding">
                 <EventSelectorModal closeModal={onCloseEventSelector} />
-              </div>
             </IonModal>
           </>
         )

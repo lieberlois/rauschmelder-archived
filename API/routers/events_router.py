@@ -1,9 +1,11 @@
 from datetime import datetime
+from typing import List
 
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 
 import models
+import schemas
 from auth import get_current_user
 from database import get_db
 from schemas import User, EventCreate
@@ -11,25 +13,25 @@ from schemas import User, EventCreate
 router = APIRouter()
 
 
-# TODO: What exactly do we do with events? Enter a code? Select from a list? Also: validation (start/end date)
+@router.get("/list", response_model=List[schemas.Event], description="Only available for admins")
+def list_events(db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
+    if not current_user.isadmin:
+        raise HTTPException(status_code=401, detail="You have to be an admin to perform this action.")
+    return db.query(models.Event).order_by(models.Event.start_date).all()
 
 
-@router.get("/list")
-def list_events(db: Session = Depends(get_db)):
-    # TODO: Remove this route
-    return db.query(models.Event).all()
-
-
-@router.get("/")
+@router.get("/", response_model=List[schemas.Event])
 def list_current_events(db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
-    return db \
+    res: List[models.Event] = db \
         .query(models.Event) \
         .filter(models.Event.start_date < datetime.now()) \
         .filter(models.Event.end_date > datetime.now()) \
         .all()
 
+    return res
 
-@router.get("/{event_id}")
+
+@router.get("/validate/{event_id}")
 def validate_event(event_id: int, db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
     event = db.query(models.Event).get(event_id)
     if event is None:
@@ -37,15 +39,19 @@ def validate_event(event_id: int, db: Session = Depends(get_db), current_user: U
     return event
 
 
-@router.get("/{event_id}")
-def drinks_for_event(event_id: int, db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
-    # TODO: Only your own drinks should be shown here, but do we even need this route?
-    # A route like "my drinks" would probably be enough for the stats page
+@router.delete("/{event_id}", description="Only available for admins")
+def delete_event(event_id: int, db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
+    if not current_user.isadmin:
+        raise HTTPException(status_code=401, detail="You have to be an admin to perform this action.")
+
     db_event: models.Event = db.query(models.Event).get(event_id)
     if db_event is None:
         raise HTTPException(status_code=404, detail="Event not found")
+    if db_event.start_date <= datetime.now():
+        raise HTTPException(status_code=400, detail="Event already running or passed")
 
-    return db_event.drinks
+    db.delete(db_event)
+    db.commit()
 
 
 @router.post("/", description="Only available for admins")

@@ -10,6 +10,7 @@ import Rauschmelder from "../pages/Rauschmelder/Rauschmelder";
 import Statistiken from "../pages/Statistiken";
 import { Sidebar } from "../components/Sidebar/Sidebar";
 import { Switch } from "react-router-dom"
+import EventsPage from "../pages/AdminArea/EventsPage/EventsPage";
 
 interface IProps extends RouteComponentProps { }
 
@@ -56,8 +57,9 @@ const AuthRouting: React.FC<IProps> = (props: IProps) => {
 
                 <Switch>
                   <Route path="/stats" render={() => { return <Statistiken {...props} /> }} exact />
+                  {currentUser.isadmin && <Route path="/events" render={() => { return <EventsPage {...props} /> }} exact />}
                   <Route path="/" render={() => { return <Rauschmelder {...props} /> }} exact />
-                  <Route path="/" return={<Redirect to="/" />} />
+                  <Route render={() => <Redirect to="/" />} />
                 </Switch>
             </>
 

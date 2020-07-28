@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { IonPage, IonContent, IonLoading } from "@ionic/react";
 import { AuthHeader } from "../components/Header/AuthHeader";
 import { StatistikList } from "../components/StatistikList/StatistikList";
@@ -12,10 +12,6 @@ const Statistiken: React.FC<IProps> = (props) => {
 
   const [isDirty, setIsDirty] = useState(true);
   const [stats, isStatsLoading] = useLoad(async () => await Drinks.drinksForEvent(), [], isDirty, () => setIsDirty(false));
-
-  useEffect(() => {
-    console.log("called")
-  }, [])
 
   return (
     <IonPage>

@@ -1,7 +1,9 @@
-from typing import Optional
+from typing import Optional, List
 
 from pydantic import BaseModel, Field
 from datetime import datetime
+
+import models
 
 
 class DrinkBase(BaseModel):
@@ -22,7 +24,7 @@ class Drink(DrinkBase):
     name: str
 
     class Config:
-        orm_mode: True
+        orm_mode = True
 
 
 class ThrowUpBase(BaseModel):
@@ -38,7 +40,7 @@ class ThrowUp(ThrowUpBase):
     name: str
 
     class Config:
-        orm_mode: True
+        orm_mode = True
         min_anystr_length = 1
         max_anystr_length = 99
 
@@ -58,9 +60,10 @@ class Event(EventBase):
     id: int
 
     class Config:
-        orm_mode: True
+        orm_mode = True
         min_anystr_length = 1
         max_anystr_length = 99
+        arbitrary_types_allowed = True
 
 
 class Token(BaseModel):
