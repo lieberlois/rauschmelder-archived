@@ -35,7 +35,7 @@ def drinks_for_user(db: Session = Depends(get_db), current_user: User = Depends(
         for key in drinks_per_user.keys():
             result.append({"drink": key, "amount": drinks_per_user[key]})
         if len(result) > 0:
-            res.append({"event_id": event.id, "event_name": event.name, "drinks": result})
+            res.append({"event_id": event.id, "event_name": event.name, "start_date": event.start_date, "drinks": result})
 
     return res
 
