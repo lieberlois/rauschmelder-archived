@@ -1,42 +1,27 @@
 import React from "react";
 import { IEvent } from "../../models/event";
-import { IonCard, IonButton } from "@ionic/react";
-import { dateOptions } from "../../util/dateOptions";
+import { EventListItem } from "./EventListItem";
+import "./EventList.scss";
 
 interface IProps {
 	readonly events: IEvent[];
 	handleDelete: (eventId: number) => void;
+	title: string;
 }
 
-export function EventList({ events, handleDelete }: IProps) {
+export function EventList({ events, handleDelete, title }: IProps) {
 	return (
-		<div>
-			{events && events.length > 0 ? events.map(event => (
-				<IonCard className="ion-padding event-card" key={event.id}>
-					<div className="event-item-text">
-						<h2 className="event-title">{event.name}</h2>
-						<h4 className="event-header">
-							Beginn:
-                </h4>
-						<h5 className="event-date">{new Date(Date.parse(event.start_date!)).toLocaleDateString("de-DE", dateOptions)}</h5>
-						<h4 className="event-header">
-							Ende:
-                </h4>
-						<h5 className="event-date">{new Date(Date.parse(event.end_date!)).toLocaleDateString("de-DE", dateOptions)}</h5>
-						{new Date(event.start_date!) > new Date() && (
-							<IonButton
-								className="delete-button"
-								color="danger"
-								onClick={() => handleDelete(event.id!)}
-							>
-								Löschen
-							</IonButton>
+		<>
+			{events && events.length > 0 && (
+				<div>
+					<h3>{title}</h3>
+					{events && events.length > 0 ? events.map(event => (
+						<EventListItem event={event} handleDelete={handleDelete} key={event.id} />
+					)) : (
+							<h4>Aktuell keine Events vorhanden.</h4>
 						)}
-					</div>
-				</IonCard>
-			)) : (
-					<h4>Aktuell keine Events vorhanden.</h4>
-				)}
-		</div>
+				</div>
+			)}
+		</>
 	)
 }

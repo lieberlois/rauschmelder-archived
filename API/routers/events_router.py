@@ -17,7 +17,7 @@ router = APIRouter()
 def list_events(db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
     if not current_user.isadmin:
         raise HTTPException(status_code=401, detail="You have to be an admin to perform this action.")
-    return db.query(models.Event).order_by(models.Event.start_date).all()
+    return db.query(models.Event).order_by(models.Event.start_date.desc()).all()
 
 
 @router.get("/", response_model=List[schemas.Event])

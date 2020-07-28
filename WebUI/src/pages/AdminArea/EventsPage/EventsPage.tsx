@@ -57,11 +57,11 @@ const EventsPage: React.FC<IProps> = (props) => {
 					) : (
 							<div className="ion-padding main">
 								<div className="item events">
-									<h3 className="header-margin" >Bestehende Events</h3>
-									<EventList events={events} handleDelete={handleDelete} />
+									<EventList title={"Zukünftige Events"} events={events.filter(e => new Date(e.start_date!) > new Date())} handleDelete={handleDelete} />
+									<EventList title={"Aktuelle Events"} events={events.filter(e => new Date(e.start_date!) <= new Date() && new Date() <= new Date(e.end_date!))} handleDelete={handleDelete} />
+									<EventList title={"Vergangene Events"} events={events.filter(e => new Date(e.end_date!) < new Date())} handleDelete={handleDelete} />
 								</div>
-								<div className="item add">
-									<h3>Event hinzufügen</h3>
+								<div>
 									<AddEventForm onCreate={onCreateEvent} />
 								</div>
 							</div>

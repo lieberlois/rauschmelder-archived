@@ -1,5 +1,6 @@
-import { IonCard, IonCardContent } from "@ionic/react";
+import { IonCard, IonCardContent, IonImg } from "@ionic/react";
 import React from "react";
+import "./StatistikListItem.scss";
 
 interface IStatistikListItemProps {
   readonly drink: string,
@@ -9,9 +10,13 @@ interface IStatistikListItemProps {
 export function StatistikListItem({ drink, amount }: IStatistikListItemProps) {
 
   return (
-    <IonCard className="ion-margin-bottom">
+    <IonCard className="card-container">
       <IonCardContent>
-        <h1>{`${drink}: ${amount}`}</h1>
+        <div className="icon-container">
+          {[...Array(amount).keys()].map((i) => (
+            <IonImg src={`/img/${drink}.jpg`} className="image" key={i} />
+          ))}
+        </div>
       </IonCardContent>
     </IonCard>
   );

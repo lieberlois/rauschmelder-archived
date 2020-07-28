@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { IonItem, IonLabel, IonInput, IonDatetime, IonButton } from "@ionic/react";
 import { Events } from "../../util/agent";
 import { IEvent } from "../../models/event";
+import "./AddEventForm.scss";
 
 interface IProps {
   onCreate: (success: boolean) => void;
@@ -33,38 +34,42 @@ export function AddEventForm({ onCreate }: IProps) {
 
   return (
     <>
-      <IonItem lines="none">
-        <IonLabel position="stacked">Name</IonLabel>
-        <IonInput
-          type="text"
-          maxlength={255}
-          value={name}
-          onIonChange={e => setName(e.detail.value!)}
-          placeholder="Wie soll das Event heißen?" required />
-      </IonItem>
+      <h3>Event hinzufügen</h3>
 
-      <IonItem className="ion-margin-top" lines="none">
-        <IonLabel position="stacked">Start</IonLabel>
-        <IonDatetime
-          displayFormat="MMM DD, YYYY HH:mm"
-          min={new Date().toISOString()}
-          max={new Date(currentDate.getTime() + (365 * dayInSeconds)).toISOString()}
-          onIonChange={e => setStartDate(e.detail.value!)}
-          value={startDate}
-        />
-      </IonItem>
-      <IonItem className="ion-margin-top" lines="none">
-        <IonLabel position="stacked">Ende</IonLabel>
-        <IonDatetime
-          displayFormat="MMM DD, YYYY HH:mm"
-          onIonChange={e => setEndDate(e.detail.value!)}
-          min={startDate}
-          max={new Date(currentDate.getTime() + (365 * dayInSeconds) + dayInSeconds).toISOString()}
-          value={endDate}
-        />
-      </IonItem>
+      <div className="form-fields">
+        <IonItem lines="none">
+          <IonLabel position="stacked">Name</IonLabel>
+          <IonInput
+            type="text"
+            maxlength={255}
+            value={name}
+            onIonChange={e => setName(e.detail.value!)}
+            placeholder="Wie soll das Event heißen?" required />
+        </IonItem>
 
-      <IonButton color="success" className="ion-margin-top" onClick={handleSave} >Hinzufügen</IonButton>
+        <IonItem className="ion-margin-top" lines="none">
+          <IonLabel position="stacked">Start</IonLabel>
+          <IonDatetime
+            displayFormat="MMM DD, YYYY HH:mm"
+            min={new Date().toISOString()}
+            max={new Date(currentDate.getTime() + (365 * dayInSeconds)).toISOString()}
+            onIonChange={e => setStartDate(e.detail.value!)}
+            value={startDate}
+          />
+        </IonItem>
+        <IonItem className="ion-margin-top" lines="none">
+          <IonLabel position="stacked">Ende</IonLabel>
+          <IonDatetime
+            displayFormat="MMM DD, YYYY HH:mm"
+            onIonChange={e => setEndDate(e.detail.value!)}
+            min={startDate}
+            max={new Date(currentDate.getTime() + (365 * dayInSeconds) + dayInSeconds).toISOString()}
+            value={endDate}
+          />
+        </IonItem>
+
+        <IonButton color="success" className="ion-margin-top" onClick={handleSave} >Hinzufügen</IonButton>
+      </div>
     </>
   )
 }

@@ -2,18 +2,10 @@
   display: flex;
   flex-direction: column-reverse;
 
-  .header-margin {
-    margin-left: 10px;
-  }
-
   @media screen and (max-width: 767px) {
     .events {
       margin-right: 15px;
       margin-top: 25px;
-    }
-
-    .add {
-      margin-left: 15px;
     }
   }
 
