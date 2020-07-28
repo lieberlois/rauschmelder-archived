@@ -31,3 +31,10 @@
   }
   margin-right: 25px;
 }
+
+.header-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}

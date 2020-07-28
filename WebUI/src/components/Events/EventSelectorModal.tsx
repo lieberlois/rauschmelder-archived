@@ -15,9 +15,10 @@ import { getEventId, setEventId } from "../../util/localStorage";
 
 interface IProps {
   closeModal: () => void;
+  closeOnSelect?: boolean;
 }
 
-export function EventSelectorModal({ closeModal }: IProps) {
+export function EventSelectorModal({ closeModal, closeOnSelect = true }: IProps) {
 
   const [events, isEventsLoading] = useLoad(async () => await Events.getCurrent(), []);
   const [currentEvent, setCurrentEvent] = useState<number>(getEventId());
@@ -28,7 +29,8 @@ export function EventSelectorModal({ closeModal }: IProps) {
     setEventId(eventId);
     setCurrentEvent(eventId);
     setShowToast(true);
-    closeModal();
+    if (closeOnSelect)
+      closeModal();
   }
 
   return isEventsLoading ? (
@@ -39,7 +41,12 @@ export function EventSelectorModal({ closeModal }: IProps) {
       <>
         <div className="event-selector ion-padding">
           <IonHeader>
-            <h1>Event auswählen</h1>
+            <div className="header-container">
+              <h1>Event auswählen</h1>
+              <IonButton className="close-modal" color="danger" onClick={() => closeModal()}>
+                Schließen
+              </IonButton>
+            </div>
           </IonHeader>
 
           <div className="ion-padding">

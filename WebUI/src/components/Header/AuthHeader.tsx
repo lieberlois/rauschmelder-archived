@@ -1,7 +1,7 @@
 import { IonHeader, IonMenuButton, IonIcon, IonToolbar, IonTitle, IonButtons, IonAlert, IonPopover, IonList, IonItem, IonModal } from "@ionic/react";
 import React, { useState, SyntheticEvent } from "react";
 import "./Header.scss";
-import { powerOutline, settingsOutline, searchOutline } from "ionicons/icons";
+import { powerOutline, settingsOutline, searchOutline, personOutline } from "ionicons/icons";
 import { useCurrentUser } from "../../bootstrap/CurrentUserProvider";
 import { deleteBearerToken } from "../../util/localStorage";
 import { RouteComponentProps } from "react-router-dom";
@@ -23,7 +23,7 @@ export function AuthHeader({ history, title }: IProps) {
   const [showPopover, setShowPopover] = useState<IShowPopover>({ show: false });
   const [showEventModal, setShowEventModal] = useState(false);
 
-  const { setCurrentUser } = useCurrentUser();
+  const { setCurrentUser, currentUser } = useCurrentUser();
 
   const logout = () => {
     setCurrentUser(null);
@@ -60,6 +60,10 @@ export function AuthHeader({ history, title }: IProps) {
           event={showPopover.event?.nativeEvent}
           onDidDismiss={() => setShowPopover({ show: false, event: undefined })}>
           <IonList lines="none">
+            <IonItem>
+              <IonIcon icon={personOutline} className="menu-item" />
+              <h2>{currentUser?.username}</h2>
+            </IonItem>
             <IonItem onClick={() => {
               setShowEventModal(true);
               setShowPopover({ show: false, event: undefined });
@@ -109,7 +113,7 @@ export function AuthHeader({ history, title }: IProps) {
         ]}
       />
       <IonModal isOpen={showEventModal} onDidDismiss={() => setShowEventModal(false)}>
-        <EventSelectorModal closeModal={() => { }} />
+        <EventSelectorModal closeModal={() => setShowEventModal(false)} closeOnSelect={false} />
       </IonModal>
     </>
   );

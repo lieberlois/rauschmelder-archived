@@ -7,7 +7,10 @@ from database import engine, get_db
 from routers import auth_router, drinks_router, throwups_router, events_router, admin_router
 
 app = FastAPI(debug=True)
-models.Base.metadata.create_all(bind=engine)
+try:
+    models.Base.metadata.create_all(bind=engine)
+except Exception:
+    pass
 
 origins = [
     "*"

@@ -34,8 +34,10 @@ export const Sidebar: React.FC<IProps> = ({ history, user }) => {
   const [showAdminToast, setShowAdminToast] = useState(false);
   const [adminSuccess, setAdminSuccess] = useState(false);
 
-  const handleAdminAttempt = (success: boolean) => {
+  const handleAdminAttempt = (success?: boolean) => {
     setShowModal(false);
+    if (success === undefined)
+      return;
     setAdminSuccess(success);
     setShowAdminToast(true);
   }
@@ -103,12 +105,12 @@ export const Sidebar: React.FC<IProps> = ({ history, user }) => {
       <div id="menu-anchor" />
 
       <IonToast
-          isOpen={showAdminToast}
-          onDidDismiss={() => resetNotificationValues()}
-          message={adminSuccess ? "Du bist jetzt ein Admin!" : "Falscher Schlüssel!"}
-          color={adminSuccess ? "success" : "danger"}
-          duration={1000}
-        />
+        isOpen={showAdminToast}
+        onDidDismiss={() => resetNotificationValues()}
+        message={adminSuccess ? "Du bist jetzt ein Admin!" : "Falscher Schlüssel!"}
+        color={adminSuccess ? "success" : "danger"}
+        duration={1000}
+      />
     </>
   );
 }
