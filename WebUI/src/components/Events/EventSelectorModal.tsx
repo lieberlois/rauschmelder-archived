@@ -9,7 +9,7 @@ import {
 import "./EventSelectorModal.scss"
 import { useLoad } from "../../hooks/UseLoad";
 import { Events } from "../../util/agent";
-import { dateOptions } from "../../util/dateOptions";
+import { dateOptionsShort } from "../../util/dateOptions";
 import { getEventId, setEventId } from "../../util/localStorage";
 
 
@@ -17,7 +17,7 @@ interface IProps {
   closeModal: () => void;
 }
 
-export function EventSelectorModal({closeModal}: IProps) {
+export function EventSelectorModal({ closeModal }: IProps) {
 
   const [events, isEventsLoading] = useLoad(async () => await Events.getCurrent(), []);
   const [currentEvent, setCurrentEvent] = useState<number>(getEventId());
@@ -39,28 +39,28 @@ export function EventSelectorModal({closeModal}: IProps) {
       <>
         <div className="event-selector ion-padding">
           <IonHeader>
-            <h1>Events</h1>
+            <h1>Event auswählen</h1>
           </IonHeader>
 
           <div className="ion-padding">
-            {events ? (
+            {events && events.length > 0 ? (
               events.map(event => (
-                <IonCard className="ion-padding event-card" key={event.id}>
+                <IonCard className="ion-padding event-card" key={event.id} color={event.id === currentEvent ? "success" : ""}>
                   <div className="event-item-text">
                     <h2 className="event-title">{event.name}</h2>
                     <h4 className="event-header">
-                      Beginn: 
+                      Beginn:
                     </h4>
-                    <h5 className="event-date">{new Date(Date.parse(event.start_date!)).toLocaleDateString("de-DE", dateOptions)}</h5>
+                    <h5 className="event-date">{new Date(Date.parse(event.start_date!)).toLocaleDateString("de-DE", dateOptionsShort)}</h5>
                     <h4 className="event-header">
                       Ende:
                     </h4>
-                    <h5 className="event-date">{new Date(Date.parse(event.end_date!)).toLocaleDateString("de-DE", dateOptions)}</h5>
+                    <h5 className="event-date">{new Date(Date.parse(event.end_date!)).toLocaleDateString("de-DE", dateOptionsShort)}</h5>
                   </div>
                   {event.id !== currentEvent && (
-                    <IonButton 
-                      className="event-button" 
-                      color="success" 
+                    <IonButton
+                      className="event-button"
+                      color="success"
                       onClick={() => handleSelectEvent(event.id!)}
                     >
                       Wählen
@@ -69,7 +69,7 @@ export function EventSelectorModal({closeModal}: IProps) {
                 </IonCard>
               ))
             ) : (
-                <h2>Aktuell keine Events</h2>
+                <h2>Aktuell keine Events vorhanden.</h2>
               )}
           </div>
         </div>

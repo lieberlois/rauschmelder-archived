@@ -1,10 +1,10 @@
-import { IonCard, IonCardContent, IonImg } from "@ionic/react";
+import { IonCard, IonImg } from "@ionic/react";
 import React from "react";
+import "./DrinkCard.scss"
 
 interface IDrinkCardProps {
   readonly drink: string;
   readonly handleCreateDrink: (drinkname: string) => void;
-
 }
 
 export function DrinkCard({ drink, handleCreateDrink }: IDrinkCardProps) {
@@ -14,12 +14,8 @@ export function DrinkCard({ drink, handleCreateDrink }: IDrinkCardProps) {
   }
 
   return (
-    <IonCard className="ion-margin-bottom drink-card">
-
-      <IonCardContent>
-        <IonImg src={`/img/${drink}.jpg`} onClick={handleClick} />
-      </IonCardContent>
-
+    <IonCard className="drink-card">
+      <IonImg src={`/img/${drink}.jpg`} onClick={handleClick} className="image" />
     </IonCard>
   );
 }

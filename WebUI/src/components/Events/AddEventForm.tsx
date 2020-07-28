@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { IonItem, IonLabel, IonInput, IonDatetime, IonButton, IonToast } from "@ionic/react";
+import { IonItem, IonLabel, IonInput, IonDatetime, IonButton } from "@ionic/react";
 import { Events } from "../../util/agent";
 import { IEvent } from "../../models/event";
 
@@ -8,7 +8,7 @@ interface IProps {
 }
 
 export function AddEventForm({ onCreate }: IProps) {
-
+  const dayInSeconds = (1000 * 60 * 60 * 24);
   const currentDate = new Date();
   const [name, setName] = useState("")
   const [startDate, setStartDate] = useState<string>(currentDate.toISOString())
@@ -16,7 +16,7 @@ export function AddEventForm({ onCreate }: IProps) {
 
   const handleSave = async () => {
     try {
-      const event: IEvent = {name: name, start_date: startDate, end_date: endDate}
+      const event: IEvent = { name: name, start_date: startDate, end_date: endDate }
       await Events.create(event)
       resetForm();
       onCreate(true);
@@ -28,7 +28,7 @@ export function AddEventForm({ onCreate }: IProps) {
   const resetForm = () => {
     setName("");
     setStartDate(currentDate.toISOString())
-    setEndDate(new Date(currentDate.getTime() + (1000 * 60 * 60 * 24)).toISOString());
+    setEndDate(new Date(currentDate.getTime() + dayInSeconds).toISOString());
   }
 
   return (
@@ -47,8 +47,9 @@ export function AddEventForm({ onCreate }: IProps) {
         <IonLabel position="stacked">Start</IonLabel>
         <IonDatetime
           displayFormat="MMM DD, YYYY HH:mm"
+          min={new Date().toISOString()}
+          max={new Date(currentDate.getTime() + (365 * dayInSeconds)).toISOString()}
           onIonChange={e => setStartDate(e.detail.value!)}
-          max={endDate}
           value={startDate}
         />
       </IonItem>
@@ -58,6 +59,7 @@ export function AddEventForm({ onCreate }: IProps) {
           displayFormat="MMM DD, YYYY HH:mm"
           onIonChange={e => setEndDate(e.detail.value!)}
           min={startDate}
+          max={new Date(currentDate.getTime() + (365 * dayInSeconds) + dayInSeconds).toISOString()}
           value={endDate}
         />
       </IonItem>

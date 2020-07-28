@@ -19,21 +19,19 @@ const Rauschmelder: React.FC<IProps> = (props) => {
   const [showConfirmAlert, setShowConfirmAlert] = useState(false);
   const [showEventModal, setShowEventModal] = useState(false);
   const [currentDrink, setCurrentDrink] = useState<string>("");
-  const [currentEvent] = useState<number>(getEventId())
   const [loading, setLoading] = useState(true);
   const [showSelectedEventToast, setShowSelectedEventToast] = useState(false);
 
   useAsyncEffect(async () => {
+    const currentEvent = getEventId();
     if (currentEvent && currentEvent !== -1) {
       try {
         await Events.validateEvent(currentEvent)
       } catch {
-        deleteEventId();
-        setShowEventModal(true);
+        promptEventSelect();
       }
     } else {
-      deleteEventId();
-      setShowEventModal(true);
+      promptEventSelect();
     }
     setLoading(false)
   }, [])
@@ -50,14 +48,29 @@ const Rauschmelder: React.FC<IProps> = (props) => {
     }
   }
 
-  const handleCreateDrink = (drink: string) => {
-    setCurrentDrink(drink);
-    setShowConfirmAlert(true);
+  const handleCreateDrink = async (drink: string) => {
+    const currentEvent = getEventId();
+    if (currentEvent === -1) {
+      promptEventSelect();
+      return;
+    }
+    try {
+      await Events.validateEvent(currentEvent)
+      setCurrentDrink(drink);
+      setShowConfirmAlert(true);
+    } catch {
+      promptEventSelect();
+    }
   }
 
   const onCloseEventSelector = () => {
     setShowSelectedEventToast(true);
     setShowEventModal(false);
+  }
+
+  const promptEventSelect = () => {
+    deleteEventId();
+    setShowEventModal(true);
   }
 
   return (
@@ -124,8 +137,8 @@ const Rauschmelder: React.FC<IProps> = (props) => {
               duration={1000}
             />
 
-            <IonModal isOpen={showEventModal} backdropDismiss={false} onDidDismiss={() => setShowEventModal(false)}>
-                <EventSelectorModal closeModal={onCloseEventSelector} />
+            <IonModal isOpen={showEventModal} onDidDismiss={() => setShowEventModal(false)}>
+              <EventSelectorModal closeModal={onCloseEventSelector} />
             </IonModal>
           </>
         )

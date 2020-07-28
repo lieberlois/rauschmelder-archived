@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { IonPage, IonContent, IonLoading, IonToast, IonAlert } from "@ionic/react";
 import { AuthHeader } from "../../../components/Header/AuthHeader";
 import { useLoad } from "../../../hooks/UseLoad";
@@ -56,11 +56,11 @@ const EventsPage: React.FC<IProps> = (props) => {
 						<IonLoading message="Laden..." duration={0} isOpen={true} />
 					) : (
 							<div className="ion-padding main">
-								<div className="item">
-									<h3>Bestehende Events</h3>
+								<div className="item events">
+									<h3 className="header-margin" >Bestehende Events</h3>
 									<EventList events={events} handleDelete={handleDelete} />
 								</div>
-								<div className="item">
+								<div className="item add">
 									<h3>Event hinzufügen</h3>
 									<AddEventForm onCreate={onCreateEvent} />
 								</div>
