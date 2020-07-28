@@ -14,7 +14,7 @@ export function EventList({ events, handleDelete, title }: IProps) {
 		<>
 			{events && events.length > 0 && (
 				<div>
-					<h3>{title}</h3>
+					<h1>{title}</h1>
 					{events && events.length > 0 ? events.map(event => (
 						<EventListItem event={event} handleDelete={handleDelete} key={event.id} />
 					)) : (

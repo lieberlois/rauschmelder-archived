@@ -4,6 +4,7 @@
   flex-wrap: wrap;
   justify-content: flex-start;
   margin-top: -10px;
+  margin-right: -16px;
 
   .image {
     width: 64px;
@@ -16,5 +17,5 @@
 }
 
 .card-container {
-  max-width: 800px;
+  width: fit-content;
 }

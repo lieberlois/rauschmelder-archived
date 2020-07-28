@@ -34,7 +34,7 @@ export function AddEventForm({ onCreate }: IProps) {
 
   return (
     <>
-      <h3>Event hinzufügen</h3>
+      <h1>Event hinzufügen</h1>
 
       <div className="form-fields">
         <IonItem lines="none">
