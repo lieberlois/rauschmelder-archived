@@ -1,7 +1,11 @@
 .event-item-text {
     .event-date {
-        margin-top: 8px;
+        margin-top: 4px;
         margin-bottom: 6px;
+    }
+
+    .event-header {
+        margin-top: 8px;
     }
 
     .event-title {
@@ -15,4 +19,14 @@
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
+    margin-bottom: 25px;
+}
+
+.event-selector {
+    overflow: scroll;
+    overflow-x: hidden;
+
+    .h1 {
+        margin-top: 5px;
+    }
 }

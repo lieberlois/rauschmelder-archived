@@ -1,16 +1,21 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { IonPage, IonContent, IonLoading } from "@ionic/react";
 import { AuthHeader } from "../components/Header/AuthHeader";
 import { StatistikList } from "../components/StatistikList/StatistikList";
 import { useLoad } from "../hooks/UseLoad";
-import {Drinks} from "../util/agent";
+import { Drinks } from "../util/agent";
 import { RouteComponentProps } from "react-router";
 
 interface IProps extends RouteComponentProps { }
 
 const Statistiken: React.FC<IProps> = (props) => {
 
-  const [stats, isStatsLoading] = useLoad(async () => await Drinks.drinksForEvent(), []);
+  const [isDirty, setIsDirty] = useState(true);
+  const [stats, isStatsLoading] = useLoad(async () => await Drinks.drinksForEvent(), [], isDirty, () => setIsDirty(false));
+
+  useEffect(() => {
+    console.log("called")
+  }, [])
 
   return (
     <IonPage>

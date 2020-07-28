@@ -48,12 +48,14 @@ export function EventSelectorModal({closeModal}: IProps) {
                 <IonCard className="ion-padding event-card" key={event.id}>
                   <div className="event-item-text">
                     <h2 className="event-title">{event.name}</h2>
-                    <h4 className="event-date">
-                      Beginn: {new Date(Date.parse(event.start_date!)).toLocaleDateString("de-DE", dateOptions)}
+                    <h4 className="event-header">
+                      Beginn: 
                     </h4>
-                    <h4 className="event-date">
-                      Ende: {new Date(Date.parse(event.end_date!)).toLocaleDateString("de-DE", dateOptions)}
+                    <h5 className="event-date">{new Date(Date.parse(event.start_date!)).toLocaleDateString("de-DE", dateOptions)}</h5>
+                    <h4 className="event-header">
+                      Ende:
                     </h4>
+                    <h5 className="event-date">{new Date(Date.parse(event.end_date!)).toLocaleDateString("de-DE", dateOptions)}</h5>
                   </div>
                   {event.id !== currentEvent && (
                     <IonButton 

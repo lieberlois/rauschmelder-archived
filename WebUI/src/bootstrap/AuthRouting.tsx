@@ -3,12 +3,13 @@ import { Route, Redirect, RouteComponentProps, withRouter } from "react-router";
 import { useCurrentUser } from "./CurrentUserProvider";
 import { Auth } from "../util/agent";
 import { useAsyncEffect } from "../hooks/UseAsyncEffect";
-import { IonLoading, IonRouterOutlet, IonSplitPane } from "@ionic/react";
+import { IonLoading } from "@ionic/react";
 import { Login } from "../pages/Auth/Login";
 import { Register } from "../pages/Auth/Register";
 import Rauschmelder from "../pages/Rauschmelder/Rauschmelder";
 import Statistiken from "../pages/Statistiken";
 import { Sidebar } from "../components/Sidebar/Sidebar";
+import { Switch } from "react-router-dom"
 
 interface IProps extends RouteComponentProps { }
 
@@ -34,27 +35,30 @@ const AuthRouting: React.FC<IProps> = (props: IProps) => {
           !currentUser
             ?
 
-            <IonSplitPane contentId="main">
-              <IonRouterOutlet id="main">
+              <Switch>
+              { /* 
+                Ideally this would be a IonRouterOutlet. Problem is: The IonRouterOutlet
+                loads pages without refreshing their props hence not refreshing essential data,
+                which was a huge problem in the stats page. 
+
+                After a bit of research it appears that this is a bug in Ionic.
+              */ }
                 <Route path="/login" render={() => { return <Login {...props} /> }} exact />
                 <Route path="/register" render={() => { return <Register {...props} /> }} exact />
                 <Route path="/" render={() => <Redirect to="/login" />} />
-              </IonRouterOutlet>
-            </IonSplitPane>
+              </Switch>
 
 
             :
             <>
               <Sidebar user={currentUser} {...props} />
 
-              <IonSplitPane contentId="main">
 
-                <IonRouterOutlet id="main">
+                <Switch>
                   <Route path="/stats" render={() => { return <Statistiken {...props} /> }} exact />
                   <Route path="/" render={() => { return <Rauschmelder {...props} /> }} exact />
                   <Route path="/" return={<Redirect to="/" />} />
-                </IonRouterOutlet>
-              </IonSplitPane>
+                </Switch>
             </>
 
         }
