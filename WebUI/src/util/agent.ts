@@ -6,7 +6,9 @@ import { getBearerToken } from "./localStorage";
 import { IEvent } from "../models/event";
 
 axios.defaults.baseURL =
-  process.env.REACT_APP_BASE_URL ?? "http://localhost:8000";
+  process.env.NODE_ENV === "production"
+    ? process.env.REACT_APP_BACKEND_URL
+    : "http://localhost:8000";
 
 axios.interceptors.request.use((config) => {
   config.headers["Authorization"] = `Bearer ${getBearerToken()}`;
@@ -41,12 +43,14 @@ export const Auth = {
 
 export const Events = {
   getCurrent: (): Promise<IEvent[]> => requests.get("/events"),
-  validateEvent: (id: number): Promise<IEvent> => requests.get(`/events/validate/${id}`),
+  validateEvent: (id: number): Promise<IEvent> =>
+    requests.get(`/events/validate/${id}`),
   list: (): Promise<IEvent[]> => requests.get("/events/list"),
   create: (event: IEvent): Promise<IEvent> => requests.post("/events", event),
-  delete: (event_id: number) => requests.delete(`/events/${event_id}`)
-}
+  delete: (event_id: number) => requests.delete(`/events/${event_id}`),
+};
 
 export const Admin = {
-  acquireAdminStatus: (secret: string) => requests.post("/admin/acquireadmin", {secret: secret})
-}
+  acquireAdminStatus: (secret: string) =>
+    requests.post("/admin/acquireadmin", { secret: secret }),
+};

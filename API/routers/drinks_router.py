@@ -12,7 +12,7 @@ router = APIRouter()
 
 
 @router.get("/list")
-def list_drinks(db: Session = Depends(get_db)):
+def list_drinks(db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
     # TODO: Remove this route
     return db.query(models.Drink).all()
 

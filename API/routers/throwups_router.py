@@ -10,7 +10,7 @@ router = APIRouter()
 
 
 @router.get("/list")
-def list_throwups(db: Session = Depends(get_db)):
+def list_throwups(db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
     return db.query(models.Throwup).all()
 
 
