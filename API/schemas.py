@@ -30,6 +30,10 @@ class Drink(DrinkBase):
 class ThrowUpBase(BaseModel):
     event_id: int = Field(..., example=1)
 
+    class Config:
+        min_anystr_length = 1
+        max_anystr_length = 99
+
 
 class ThrowUpCreate(ThrowUpBase):
     pass
@@ -41,8 +45,6 @@ class ThrowUp(ThrowUpBase):
 
     class Config:
         orm_mode = True
-        min_anystr_length = 1
-        max_anystr_length = 99
 
 
 class EventBase(BaseModel):
@@ -53,7 +55,10 @@ class EventBase(BaseModel):
 
 
 class EventCreate(EventBase):
-    pass
+    # Strings must not be empty!
+    class Config:
+        min_anystr_length = 1
+        max_anystr_length = 99
 
 
 class Event(EventBase):
@@ -61,8 +66,6 @@ class Event(EventBase):
 
     class Config:
         orm_mode = True
-        min_anystr_length = 1
-        max_anystr_length = 99
         arbitrary_types_allowed = True
 
 
