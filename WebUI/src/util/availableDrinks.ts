@@ -1,1 +1,8 @@
-export const availableDrinks = ["kirschgoiß", "weizen", "cocktail", "shot"];
+export const availableDrinks: string[] = [
+  "kirschgoiß",
+  "bier",
+  "cocktail",
+  "shot",
+  "wein",
+  "likör",
+];
