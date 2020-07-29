@@ -33,9 +33,11 @@ def list_current_events(db: Session = Depends(get_db), current_user: User = Depe
 
 @router.get("/validate/{event_id}")
 def validate_event(event_id: int, db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
-    event = db.query(models.Event).get(event_id)
+    event: models.Event = db.query(models.Event).get(event_id)
     if event is None:
         raise HTTPException(status_code=404, detail="Event not found.")
+    if not event.start_date <= datetime.now() <= event.end_date:
+        return None
     return event
 
 
@@ -47,8 +49,8 @@ def delete_event(event_id: int, db: Session = Depends(get_db), current_user: Use
     db_event: models.Event = db.query(models.Event).get(event_id)
     if db_event is None:
         raise HTTPException(status_code=404, detail="Event not found")
-    if db_event.start_date <= datetime.now():
-        raise HTTPException(status_code=400, detail="Event already running or passed")
+    if db_event.end_date < datetime.now():
+        raise HTTPException(status_code=400, detail="Event has already passed")
 
     db.delete(db_event)
     db.commit()

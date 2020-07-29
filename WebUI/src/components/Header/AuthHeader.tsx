@@ -72,7 +72,7 @@ export function AuthHeader({ history, title }: IProps) {
                 className="menu-item"
                 icon={searchOutline}
               />
-              Partyauswahl
+              Eventauswahl
             </IonItem>
             <IonItem onClick={() => {
               setShowConfirmAlert(true);

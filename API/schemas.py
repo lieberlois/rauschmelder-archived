@@ -53,12 +53,13 @@ class EventBase(BaseModel):
     start_date: datetime
     end_date: datetime
 
-
-class EventCreate(EventBase):
-    # Strings must not be empty!
     class Config:
         min_anystr_length = 1
         max_anystr_length = 99
+
+
+class EventCreate(EventBase):
+    pass
 
 
 class Event(EventBase):

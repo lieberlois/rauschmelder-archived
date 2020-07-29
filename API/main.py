@@ -1,4 +1,7 @@
+import os
+
 import uvicorn
+from dotenv import load_dotenv, find_dotenv
 from fastapi import FastAPI, Depends
 from fastapi.middleware.cors import CORSMiddleware
 
@@ -6,14 +9,22 @@ import models
 from database import engine, get_db
 from routers import auth_router, drinks_router, throwups_router, events_router, admin_router
 
-app = FastAPI(debug=True)
-try:
-    models.Base.metadata.create_all(bind=engine)
-except Exception:
-    pass
+load_dotenv(find_dotenv())
+API_DOC_ENABLED = os.getenv("API_DOCS_ENABLED")
+
+if API_DOC_ENABLED == "True":
+    print("[INFO]: Starting server with Docs")
+    params = {"debug": True}
+else:
+    print("[INFO]: Starting server without Docs")
+    params = {"docs_url": None, "redoc_url": None, "openapi": None}
+
+app = FastAPI(**params)
+
+models.Base.metadata.create_all(bind=engine)
 
 origins = [
-    "*"
+    "*",
 ]
 
 app.add_middleware(
@@ -57,7 +68,6 @@ app.include_router(
     tags=["Administration"],
     dependencies=[Depends(get_db)]
 )
-
 
 if __name__ == '__main__':
     # Use this for debugging purposes only, otherwise start with "uvicorn main:app --reload"

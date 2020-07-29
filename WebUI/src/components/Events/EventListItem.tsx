@@ -2,6 +2,7 @@ import React from "react";
 import { IEvent } from "../../models/event";
 import { IonCard, IonButton } from "@ionic/react";
 import { dateOptions } from "../../util/dateOptions";
+import "./EventListItem.scss";
 
 interface IProps {
   readonly event: IEvent;
