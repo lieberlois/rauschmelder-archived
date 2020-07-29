@@ -33,22 +33,19 @@ export function EventSelectorModal({ closeModal, closeOnSelect = true }: IProps)
       closeModal();
   }
 
-  return isEventsLoading ? (
-    <IonLoading message="Laden..." duration={0} isOpen={true} />
-  )
-    :
-    (
-      <>
-        <div className="event-selector ion-padding">
-          <IonHeader>
-            <div className="header-container">
-              <h1>Event auswählen</h1>
-              <IonButton className="close-modal" color="danger" onClick={() => closeModal()}>
-                Schließen
+  return (
+    <>
+      <div className="event-selector ion-padding">
+        <IonHeader>
+          <div className="header-container">
+            <h1>Event auswählen</h1>
+            <IonButton className="close-modal" color="danger" onClick={() => closeModal()}>
+              Schließen
               </IonButton>
-            </div>
-          </IonHeader>
+          </div>
+        </IonHeader>
 
+        {isEventsLoading ? <IonLoading message="Laden..." duration={0} isOpen={true} /> : (
           <div className="ion-padding">
             {events && events.length > 0 ? (
               events.map(event => (
@@ -79,15 +76,18 @@ export function EventSelectorModal({ closeModal, closeOnSelect = true }: IProps)
                 <h2>Aktuell keine Events vorhanden.</h2>
               )}
           </div>
-        </div>
+        )}
 
-        <IonToast
-          isOpen={showToast}
-          onDidDismiss={() => setShowToast(false)}
-          message={"Party ausgewählt"}
-          color={"success"}
-          duration={1000}
-        />
-      </>
-    );
+
+      </div>
+
+      <IonToast
+        isOpen={showToast}
+        onDidDismiss={() => setShowToast(false)}
+        message={"Party ausgewählt"}
+        color={"success"}
+        duration={1000}
+      />
+    </>
+  );
 }

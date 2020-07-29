@@ -22,7 +22,7 @@ export function EventListItem({ event, handleDelete }: IProps) {
           Ende:
                 </h4>
         <h5 className="event-date">{new Date(Date.parse(event.end_date!)).toLocaleDateString("de-DE", dateOptions)}</h5>
-        {new Date(event.start_date!) > new Date() && (
+        {new Date(event.end_date!) > new Date() && (
           <IonButton
             className="delete-button"
             color="danger"

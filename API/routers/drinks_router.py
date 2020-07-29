@@ -9,6 +9,12 @@ from database import get_db
 from schemas import DrinkCreate, User
 
 router = APIRouter()
+ALLOWED_DRINKS = ["kirschgoiß",
+                  "bier",
+                  "wein",
+                  "cocktail",
+                  "likör",
+                  "shot"]
 
 
 @router.get("/list")
@@ -35,7 +41,8 @@ def drinks_for_user(db: Session = Depends(get_db), current_user: User = Depends(
         for key in drinks_per_user.keys():
             result.append({"drink": key, "amount": drinks_per_user[key]})
         if len(result) > 0:
-            res.append({"event_id": event.id, "event_name": event.name, "start_date": event.start_date, "drinks": result})
+            res.append(
+                {"event_id": event.id, "event_name": event.name, "start_date": event.start_date, "drinks": result})
 
     return res
 
@@ -45,6 +52,8 @@ def create_drink(drink: DrinkCreate, db: Session = Depends(get_db), current_user
     db_event = db.query(models.Event).get(drink.event_id)
     if db_event is None:
         raise HTTPException(status_code=404, detail="Event not found")
+    if drink.drink not in ALLOWED_DRINKS:
+        raise HTTPException(status_code=400, detail="Invalid drink")
 
     drink_dict = drink.dict()
     drink_dict["user_id"] = current_user.id

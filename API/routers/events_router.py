@@ -49,8 +49,11 @@ def delete_event(event_id: int, db: Session = Depends(get_db), current_user: Use
     db_event: models.Event = db.query(models.Event).get(event_id)
     if db_event is None:
         raise HTTPException(status_code=404, detail="Event not found")
-    if db_event.end_date < datetime.now():
+    if db_event.end_date <= datetime.now():
         raise HTTPException(status_code=400, detail="Event has already passed")
+
+    for drink in db_event.drinks:  # Cascade delete
+        db.delete(drink)
 
     db.delete(db_event)
     db.commit()
