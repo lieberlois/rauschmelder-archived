@@ -31,6 +31,7 @@ const Rauschmelder: React.FC<IProps> = (props) => {
         promptEventSelect();
       }
     } else {
+      deleteEventId();
       promptEventSelect();
     }
     setLoading(false)
@@ -55,7 +56,11 @@ const Rauschmelder: React.FC<IProps> = (props) => {
       return;
     }
     try {
-      await Events.validateEvent(currentEvent)
+      const event = await Events.validateEvent(currentEvent);
+      if (!event) {
+        promptEventSelect();
+        return;
+      }
       setCurrentDrink(drink);
       setShowConfirmAlert(true);
     } catch {
