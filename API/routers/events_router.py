@@ -1,8 +1,9 @@
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import List
 
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
+from sqlalchemy_utc import utcnow
 
 import models
 import schemas
@@ -24,8 +25,8 @@ def list_events(db: Session = Depends(get_db), current_user: User = Depends(get_
 def list_current_events(db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
     res: List[models.Event] = db \
         .query(models.Event) \
-        .filter(models.Event.start_date < datetime.now()) \
-        .filter(models.Event.end_date > datetime.now()) \
+        .filter(models.Event.start_date < utcnow()) \
+        .filter(models.Event.end_date > utcnow()) \
         .all()
 
     return res
@@ -36,7 +37,7 @@ def validate_event(event_id: int, db: Session = Depends(get_db), current_user: U
     event: models.Event = db.query(models.Event).get(event_id)
     if event is None:
         raise HTTPException(status_code=404, detail="Event not found.")
-    if not event.start_date <= datetime.now() <= event.end_date:
+    if not (event.start_date <= datetime.now(timezone.utc) <= event.end_date):
         return None
     return event
 
@@ -49,7 +50,7 @@ def delete_event(event_id: int, db: Session = Depends(get_db), current_user: Use
     db_event: models.Event = db.query(models.Event).get(event_id)
     if db_event is None:
         raise HTTPException(status_code=404, detail="Event not found")
-    if db_event.end_date <= datetime.now():
+    if db_event.end_date <= datetime.now(timezone.utc):
         raise HTTPException(status_code=400, detail="Event has already passed")
 
     for drink in db_event.drinks:  # Cascade delete
