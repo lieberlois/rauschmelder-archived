@@ -11,7 +11,7 @@ import Statistiken from "../pages/Statistiken";
 import { Sidebar } from "../components/Sidebar/Sidebar";
 import { Switch } from "react-router-dom"
 import EventsPage from "../pages/AdminArea/EventsPage/EventsPage";
-import EventStatistiken from "../pages/EventStatistik";
+import EventStatistiken from "../pages/EventStatistik/EventStatistik";
 
 interface IProps extends RouteComponentProps { }
 

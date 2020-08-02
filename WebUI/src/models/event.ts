@@ -6,9 +6,10 @@ export interface IEvent {
 }
 
 interface IEventStat {
-  [key: string]: number
+  name: string;
+  amount: number;
 }
 
 export interface IEventStats {
-  [key: string]: IEventStat
+  [key: string]: IEventStat[];
 }
