@@ -3,6 +3,6 @@ export const availableDrinks: string[] = [
   "bier",
   "wein",
   "cocktail",
-  "likör",
   "shot",
+  "likör",
 ];

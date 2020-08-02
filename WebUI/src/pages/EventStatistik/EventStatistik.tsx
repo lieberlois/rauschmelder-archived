@@ -9,12 +9,13 @@ import { availableDrinks } from "../../util/availableDrinks";
 import { upperFirstLetter } from "../../util/stringUtils";
 import { BarChart } from "../../components/Charts/BarChart";
 import "./EventStatistik.scss";
+import { IEventStats } from "../../models/event";
 
 interface IProps extends RouteComponentProps { }
 
 const EventStatistiken: React.FC<IProps> = (props) => {
 
-  const [event, isEventLoading, hasError] = useLoad(async () => await Events.get(getEventId()), {});
+  const [event, isEventLoading, hasError] = useLoad<IEventStats | null>(async () => await Events.get(getEventId()), null);
 
   return (
     <IonPage>
@@ -25,23 +26,23 @@ const EventStatistiken: React.FC<IProps> = (props) => {
           isEventLoading ? (
             <IonLoading message="Laden..." duration={0} isOpen={true} />
           ) : (
-              (hasError || event === {}) ? (
+              (hasError || event === null) ? (
                 <>
                   <h1>Statistiken konnten nicht geladen werden.</h1>
                 </>
               ) : (
-                  <>
+                  <div className="ion-padding chart-container">
                     {availableDrinks.sort((a, b) => a.localeCompare(b)).map(key => (
                       event[key].length > 0 && (
-                        <>
+                        <div key={key}>
                           <h1>{upperFirstLetter(key)}</h1>
-                          <div className="chart-container" key={key}>
+                          <div className="chart-element" key={key}>
                             <BarChart data={event[key].map(elem => elem.amount)} labels={event[key].map(elem => elem.name)} />
                           </div>
-                        </>
+                        </div>
                       )
                     ))}
-                  </>
+                  </div>
                 )
             )
         }
