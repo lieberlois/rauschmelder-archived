@@ -29,7 +29,7 @@ const EventStatistiken: React.FC<IProps> = (props) => {
               </>
             ) : (
               <>
-              {availableDrinks.map(key => (
+              {availableDrinks.sort((a, b) => a.localeCompare(b)).map(key => (
                 <div key={key}>
                   <h1>{upperFirstLetter(key)}</h1>
                   {JSON.stringify(event[key])}

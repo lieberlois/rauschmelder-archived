@@ -60,6 +60,13 @@ def event_stats(event_id: int, db: Session = Depends(get_db), current_user: User
     for drink in db_event.drinks:
         result[drink.drink][id_name_mapping[drink.user_id]] += 1
 
+    # Now sort descending
+    for drink in result.keys():
+        sorted_entries = sorted(result[drink].items(), key=lambda x: x[1], reverse=True)
+        result[drink] = [{"name": key, "amount": value} for [key, value] in sorted_entries]
+
+    # result now looks like {'kirschgoiß': [{"name":"LieberLois","amount":1},{"name":"Schokofabi","amount":0}], ... }
+
     return result
 
 
