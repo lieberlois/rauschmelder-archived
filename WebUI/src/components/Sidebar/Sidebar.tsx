@@ -18,6 +18,7 @@ import {
   statsChartOutline,
   settingsOutline,
   helpCircleOutline,
+  rocketOutline,
 } from "ionicons/icons";
 import "./Sidebar.scss";
 import { RouteComponentProps } from "react-router-dom";
@@ -72,6 +73,10 @@ export const Sidebar: React.FC<IProps> = ({ history, user }) => {
               <IonItem button onClick={() => history.push("/stats")}>
                 <IonIcon icon={statsChartOutline} />
                 <IonLabel>Eigene Statistik</IonLabel>
+              </IonItem>
+              <IonItem button onClick={() => history.push("/eventstats")}>
+                <IonIcon icon={rocketOutline} />
+                <IonLabel>Event Statistik</IonLabel>
               </IonItem>
 
               {user.isadmin ? (

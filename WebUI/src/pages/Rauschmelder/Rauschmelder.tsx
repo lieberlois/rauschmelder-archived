@@ -9,6 +9,7 @@ import { RouteComponentProps } from 'react-router';
 import { EventSelectorModal } from '../../components/Events/EventSelectorModal';
 import { getEventId, deleteEventId } from '../../util/localStorage';
 import { useAsyncEffect } from '../../hooks/UseAsyncEffect';
+import { upperFirstLetter } from '../../util/stringUtils';
 
 interface IProps extends RouteComponentProps { }
 
@@ -97,7 +98,7 @@ const Rauschmelder: React.FC<IProps> = (props) => {
             <IonAlert
               isOpen={showConfirmAlert}
               onDidDismiss={() => setShowConfirmAlert(false)}
-              message={`${currentDrink.charAt(0).toUpperCase() + currentDrink.slice(1)} saufen?`}
+              message={`${upperFirstLetter(currentDrink)} saufen?`}
               header={'Bestätigung'}
               cssClass={"confirm-alert"}
               buttons={[

@@ -8,6 +8,7 @@ from sqlalchemy_utc import utcnow
 import models
 import schemas
 from auth import get_current_user
+from constants import ALLOWED_DRINKS
 from database import get_db
 from schemas import User, EventCreate
 
@@ -30,6 +31,36 @@ def list_current_events(db: Session = Depends(get_db), current_user: User = Depe
         .all()
 
     return res
+
+
+# This code can and should be simplified by implementing easier navigation in the Drink model
+@router.get("/{event_id}")
+def event_stats(event_id: int, db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
+    if event_id == -1:
+        raise HTTPException(status_code=400, detail="Invalid event.")
+    db_event: models.Event = db.query(models.Event).get(event_id)
+    if db_event is None:
+        raise HTTPException(status_code=404, detail="Event not found.")
+    if not (db_event.start_date <= datetime.now(timezone.utc) <= db_event.end_date):
+        raise HTTPException(status_code=400, detail="Event has passed.")
+
+    user_ids = [drink.user_id for drink in db_event.drinks]
+    id_name_mapping = {}
+
+    for user_id in user_ids:
+        if user_id in id_name_mapping.keys():
+            continue
+        user: models.User = db.query(models.User).get(user_id)
+        id_name_mapping[user_id] = user.username
+
+    # id_name_mapping is something like {1: 'LieberLois', 2: 'Schokofabi'}
+    result = {drink: {id_name_mapping[user_id]: 0 for user_id in user_ids} for drink in ALLOWED_DRINKS}
+    # result is something like {'kirschgoiß': {'LieberLois': 0}, 'bier': {'LieberLois': 0}, 'shot': {'LieberLois': 0}}
+
+    for drink in db_event.drinks:
+        result[drink.drink][id_name_mapping[drink.user_id]] += 1
+
+    return result
 
 
 @router.get("/validate/{event_id}")

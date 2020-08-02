@@ -1,9 +1,7 @@
-from typing import Optional, List
+from typing import Optional
 
 from pydantic import BaseModel, Field
 from datetime import datetime
-
-import models
 
 
 class DrinkBase(BaseModel):
@@ -22,6 +20,7 @@ class DrinkCreate(DrinkBase):
 class Drink(DrinkBase):
     id: int
     name: str
+    user_id: int = Field(..., example=1)
 
     class Config:
         orm_mode = True

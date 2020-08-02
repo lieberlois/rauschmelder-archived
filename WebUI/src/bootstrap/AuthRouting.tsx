@@ -11,6 +11,7 @@ import Statistiken from "../pages/Statistiken";
 import { Sidebar } from "../components/Sidebar/Sidebar";
 import { Switch } from "react-router-dom"
 import EventsPage from "../pages/AdminArea/EventsPage/EventsPage";
+import EventStatistiken from "../pages/EventStatistik";
 
 interface IProps extends RouteComponentProps { }
 
@@ -57,6 +58,7 @@ const AuthRouting: React.FC<IProps> = (props: IProps) => {
 
                 <Switch>
                   <Route path="/stats" render={() => { return <Statistiken {...props} /> }} exact />
+                  <Route path="/eventstats" render={() => { return <EventStatistiken {...props} /> }} exact />
                   {currentUser.isadmin && <Route path="/events" render={() => { return <EventsPage {...props} /> }} exact />}
                   <Route path="/" render={() => { return <Rauschmelder {...props} /> }} exact />
                   <Route render={() => <Redirect to="/" />} />

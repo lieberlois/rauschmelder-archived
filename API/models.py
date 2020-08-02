@@ -26,6 +26,8 @@ class Throwup(Base):
     timestamp = Column("timestamp", UtcDateTime(), default=utcnow())
     event_id = Column("event_id", Integer, ForeignKey("events.id"), nullable=False)
 
+    # TODO: possibly implement a relationship for easier navigation in events router
+
 
 class User(Base):
     __tablename__ = "users"

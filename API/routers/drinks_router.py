@@ -5,16 +5,11 @@ from sqlalchemy.orm import Session
 
 import models
 from auth import get_current_user
+from constants import ALLOWED_DRINKS
 from database import get_db
 from schemas import DrinkCreate, User
 
 router = APIRouter()
-ALLOWED_DRINKS = ["kirschgoiß",
-                  "bier",
-                  "wein",
-                  "cocktail",
-                  "likör",
-                  "shot"]
 
 
 @router.get("/list")

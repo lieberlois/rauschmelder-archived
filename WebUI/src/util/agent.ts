@@ -3,7 +3,7 @@ import { IDrink, IDrinksForEvent } from "../models/drink";
 import { IUserRegister } from "../models/user";
 import qs from "qs";
 import { getBearerToken } from "./localStorage";
-import { IEvent } from "../models/event";
+import { IEvent, IEventStats } from "../models/event";
 
 axios.defaults.baseURL =
   process.env.NODE_ENV === "production"
@@ -45,6 +45,7 @@ export const Events = {
   getCurrent: (): Promise<IEvent[]> => requests.get("/events"),
   validateEvent: (id: number): Promise<IEvent> =>
     requests.get(`/events/validate/${id}`),
+  get: (id: number): Promise<IEventStats> => requests.get(`/events/${id}`),
   list: (): Promise<IEvent[]> => requests.get("/events/list"),
   create: (event: IEvent): Promise<IEvent> => requests.post("/events", event),
   delete: (event_id: number) => requests.delete(`/events/${event_id}`),
