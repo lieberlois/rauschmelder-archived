@@ -7,12 +7,12 @@
 
   .image {
     @media screen and (max-width: 767px) {
-      width: 25%;
-      height: 25%;
+      width: 20%;
+      height: 20%;
     }
     @media screen and (min-width: 768px) {
-      width: 128px;
-      height: 128px;
+      width: 96px;
+      height: 96px;
     }
 
     overflow: hidden;

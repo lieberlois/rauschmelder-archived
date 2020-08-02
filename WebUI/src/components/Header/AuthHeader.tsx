@@ -6,6 +6,7 @@ import { useCurrentUser } from "../../bootstrap/CurrentUserProvider";
 import { deleteBearerToken } from "../../util/localStorage";
 import { RouteComponentProps } from "react-router-dom";
 import { EventSelectorModal } from "../Events/EventSelectorModal";
+import { DarkmodeToggle } from "./DarkmodeToggle";
 
 interface IProps extends RouteComponentProps {
   readonly title: string
@@ -63,6 +64,9 @@ export function AuthHeader({ history, title }: IProps) {
             <IonItem>
               <IonIcon icon={personOutline} className="menu-item" />
               <h2>{currentUser?.username}</h2>
+            </IonItem>
+            <IonItem>
+              <DarkmodeToggle />
             </IonItem>
             <IonItem onClick={() => {
               setShowEventModal(true);

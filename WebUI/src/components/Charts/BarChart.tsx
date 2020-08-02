@@ -27,15 +27,15 @@ export function BarChart({ data, labels }: IProps) {
 
   const datasets = [
     {
-      barPercentage: 1.0,
-      categoryPercentage: 0.75,
+      barPercentage: 0.75,
+      categoryPercentage: 1.0,
       data: data,
       backgroundColor: generateColors(),
     },
   ]
 
   const options = {
-    maintainAspectRatio: true,
+    maintainAspectRatio: false,
     scales: {
       xAxes: [{
         type: 'linear',

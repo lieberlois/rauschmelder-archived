@@ -1,5 +1,5 @@
-import React from "react";
-import { IonPage, IonContent, IonLoading } from "@ionic/react";
+import React, { useState, useEffect } from "react";
+import { IonPage, IonContent } from "@ionic/react";
 import { AuthHeader } from "../../components/Header/AuthHeader";
 import { useLoad } from "../../hooks/UseLoad";
 import { Events } from "../../util/agent";
@@ -15,38 +15,46 @@ interface IProps extends RouteComponentProps { }
 
 const EventStatistiken: React.FC<IProps> = (props) => {
 
-  const [event, isEventLoading, hasError] = useLoad<IEventStats | null>(async () => await Events.get(getEventId()), null);
+  const reloadTimeInSeconds = 10;
+  const amountLeaders = 5;
+  const [isDirty, setIsDirty] = useState(true);
+  const [event, , hasError] = useLoad<IEventStats | null>(async () => await Events.getLeaderboard(getEventId(), amountLeaders), null, isDirty, () => setIsDirty(false));
+
+  useEffect(() => {
+    setInterval(() => {
+      setIsDirty(true)
+    }, reloadTimeInSeconds * 1000)
+  }, [])
 
   return (
     <IonPage>
-      <AuthHeader title={"Eventstatistik"} {...props} />
+      <AuthHeader title={"Event Leaderboard"} {...props} />
 
       <IonContent className="ion-padding">
         {
-          isEventLoading ? (
-            <IonLoading message="Laden..." duration={0} isOpen={true} />
-          ) : (
-              (hasError || event === null) ? (
-                <>
-                  <h1>Statistiken konnten nicht geladen werden.</h1>
-                </>
-              ) : (
-                  <div className="ion-padding chart-container">
-                    {availableDrinks.sort((a, b) => a.localeCompare(b)).map(key => (
-                      event[key].length > 0 && (
-                        <div key={key}>
-                          <h1>{upperFirstLetter(key)}</h1>
-                          <div className="chart-element" key={key}>
-                            <BarChart data={event[key].map(elem => elem.amount)} labels={event[key].map(elem => elem.name)} />
-                          </div>
-                        </div>
-                      )
-                    ))}
-                  </div>
-                )
-            )
-        }
 
+          <>
+            {(hasError || event === null) ? (
+              <>
+                <h1>Statistiken konnten nicht geladen werden.</h1>
+              </>
+            ) : (
+                <div className="chart-container">
+                  {availableDrinks.sort((a, b) => a.localeCompare(b)).map(key => (
+                    event[key].length > 0 && (
+                      <div key={key} className="container">
+                        <h1>{upperFirstLetter(key)}</h1>
+                        <div className="chart-element" key={key} >
+                          <BarChart data={event[key].map(elem => elem.amount)} labels={event[key].map(elem => elem.name)} />
+                        </div>
+                      </div>
+                    )
+                  ))}
+                </div>
+              )}
+          </>
+
+        }
       </IonContent>
 
     </IonPage>

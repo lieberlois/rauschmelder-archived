@@ -34,8 +34,8 @@ def list_current_events(db: Session = Depends(get_db), current_user: User = Depe
 
 
 # This code can and should be simplified by implementing easier navigation in the Drink model
-@router.get("/{event_id}")
-def event_stats(event_id: int, db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
+@router.get("/leaderboard/{event_id}/{amount}")
+def event_stats(event_id: int, amount: int, db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
     if event_id == -1:
         raise HTTPException(status_code=400, detail="Invalid event.")
     db_event: models.Event = db.query(models.Event).get(event_id)
@@ -62,7 +62,7 @@ def event_stats(event_id: int, db: Session = Depends(get_db), current_user: User
 
     # Now sort descending
     for drink in result.keys():
-        sorted_entries = sorted(result[drink].items(), key=lambda x: x[1], reverse=True)
+        sorted_entries = sorted(result[drink].items(), key=lambda x: x[1], reverse=True)[:amount]
         result[drink] = [{"name": key, "amount": value} for [key, value] in sorted_entries if value > 0]
 
     # result now looks like {'kirschgoiß': [{"name":"LieberLois","amount":1},{"name":"Schokofabi","amount":0}], ... }

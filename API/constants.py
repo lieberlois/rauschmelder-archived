@@ -3,4 +3,5 @@ ALLOWED_DRINKS = ["kirschgoiß",
                   "wein",
                   "cocktail",
                   "likör",
-                  "shot"]
+                  "shot"
+                ]

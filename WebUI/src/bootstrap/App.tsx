@@ -23,16 +23,19 @@ import '@ionic/react/css/display.css';
 import '../theme/variables.css';
 import { CurrentUserProvider } from './CurrentUserProvider';
 import AuthRouting from './AuthRouting';
+import { ThemeProvider } from './ThemeProvider';
 
 const App: React.FC = () => {
 
   return (
     <IonApp>
-      <CurrentUserProvider>
-        <IonReactRouter>
-          <AuthRouting />
-        </IonReactRouter>
-      </CurrentUserProvider>
+      <ThemeProvider>
+        <CurrentUserProvider>
+          <IonReactRouter>
+            <AuthRouting />
+          </IonReactRouter>
+        </CurrentUserProvider>
+      </ThemeProvider>
     </IonApp>
   );
 };

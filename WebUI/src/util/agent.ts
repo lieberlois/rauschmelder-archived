@@ -45,7 +45,8 @@ export const Events = {
   getCurrent: (): Promise<IEvent[]> => requests.get("/events"),
   validateEvent: (id: number): Promise<IEvent> =>
     requests.get(`/events/validate/${id}`),
-  get: (id: number): Promise<IEventStats> => requests.get(`/events/${id}`),
+  getLeaderboard: (id: number, amount: number = 5): Promise<IEventStats> =>
+    requests.get(`/events/leaderboard/${id}/${amount}`),
   list: (): Promise<IEvent[]> => requests.get("/events/list"),
   create: (event: IEvent): Promise<IEvent> => requests.post("/events", event),
   delete: (event_id: number) => requests.delete(`/events/${event_id}`),

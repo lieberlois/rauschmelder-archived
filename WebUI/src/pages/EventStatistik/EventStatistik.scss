@@ -1,11 +1,11 @@
 .chart-element {
   @media screen and (max-width: 767px) {
     width: 80%;
-    height: fit-content;
+    height: 175px;
   }
 
   @media screen and (min-width: 768px) {
-    height: fit-content;
+    height: 350px;
     width: 40%;
     margin-right: 100px;
   }
