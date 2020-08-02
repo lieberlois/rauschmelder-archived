@@ -37,12 +37,15 @@ export function EventSelectorModal({ closeModal, closeOnSelect = true }: IProps)
     <>
       <div className="event-selector ion-padding">
         <IonHeader>
-          <div className="header-container">
-            <h1>Event auswählen</h1>
-            <IonButton className="close-modal" color="danger" onClick={() => closeModal()}>
-              Schließen
+          <IonCard>
+
+            <div className="header-container">
+              <h1>Event auswählen</h1>
+              <IonButton className="close-modal" color="danger" onClick={() => closeModal()}>
+                Schließen
               </IonButton>
-          </div>
+            </div>
+          </IonCard>
         </IonHeader>
 
         {isEventsLoading ? <IonLoading message="Laden..." duration={0} isOpen={true} /> : (
@@ -73,7 +76,9 @@ export function EventSelectorModal({ closeModal, closeOnSelect = true }: IProps)
                 </IonCard>
               ))
             ) : (
-                <h2>Aktuell keine Events vorhanden.</h2>
+                <IonCard>
+                  <h2>Aktuell keine Events vorhanden.</h2>
+                </IonCard>
               )}
           </div>
         )}
