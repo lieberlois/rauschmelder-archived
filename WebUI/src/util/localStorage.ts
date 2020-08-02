@@ -14,6 +14,7 @@ export function deleteBearerToken() {
   localStorage.removeItem(bearerTokenKey);
 }
 
+// Maybe set this to the full event json so start- and end_date can be checked before the request
 export function getEventId(): number {
   return Number(localStorage.getItem(eventKey) ?? "-1");
 }

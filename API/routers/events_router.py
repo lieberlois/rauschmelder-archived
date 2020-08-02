@@ -37,12 +37,12 @@ def list_current_events(db: Session = Depends(get_db), current_user: User = Depe
 @router.get("/leaderboard/{event_id}/{amount}")
 def event_stats(event_id: int, amount: int, db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
     if event_id == -1:
-        raise HTTPException(status_code=400, detail="Invalid event.")
+        return None
     db_event: models.Event = db.query(models.Event).get(event_id)
     if db_event is None:
-        raise HTTPException(status_code=404, detail="Event not found.")
+        return None
     if not (db_event.start_date <= datetime.now(timezone.utc) <= db_event.end_date):
-        raise HTTPException(status_code=400, detail="Event has passed.")
+        return None
 
     user_ids = [drink.user_id for drink in db_event.drinks]
     id_name_mapping = {}

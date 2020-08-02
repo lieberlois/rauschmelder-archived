@@ -6,6 +6,8 @@ interface IProps {
   labels: string[];
 }
 
+const maxLabelLength = 10;
+
 export function BarChart({ data, labels }: IProps) {
 
   const generateColors = () => {
@@ -25,6 +27,26 @@ export function BarChart({ data, labels }: IProps) {
     return colors
   }
 
+  const generateLabels = () => {
+    const croppedLabels: string[][] = []
+    labels.forEach(label => {
+      if (label.length <= maxLabelLength) {
+        croppedLabels.push([label])
+      } else {
+        let middle = Math.floor(label.length / 2);
+        const wasSpace = label[middle] === " " || label[middle + 1] === " ";
+
+        let newFirst = label.substr(0, middle + 1).trim();
+        const newSecond = label.substr(middle + 1).trim();
+
+        if (!wasSpace)
+          newFirst = newFirst + "-"
+        croppedLabels.push([newFirst, newSecond])
+      }
+    });
+    return croppedLabels;
+  }
+
   const datasets = [
     {
       barPercentage: 0.75,
@@ -34,16 +56,33 @@ export function BarChart({ data, labels }: IProps) {
     },
   ]
 
+  const labelsWithLines = generateLabels();
+
   const options = {
     maintainAspectRatio: false,
     scales: {
+      yAxes: [
+        {
+          barThickness: 'flex',
+          display: true,
+          gridLines: {
+            display: false
+          },
+          legend: false,
+          ticks: {
+            autoSkip: false,
+            maxRotation: 30,
+            minRotation: 0,
+          }
+        }
+      ],
       xAxes: [{
         type: 'linear',
         ticks: {
           beginAtZero: true,
           stepSize: 1.0,
         },
-      }]
+      }],
     },
     legend: {
       display: false,
@@ -51,6 +90,6 @@ export function BarChart({ data, labels }: IProps) {
   }
 
   return (
-    <HorizontalBar data={{ labels: labels, datasets: datasets }} options={options} />
+    <HorizontalBar data={{ labels: labelsWithLines, datasets: datasets }} options={options} />
   )
 }
