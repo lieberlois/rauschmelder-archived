@@ -29,13 +29,13 @@ const EventsPage: React.FC<IProps> = (props) => {
 	const onCreateEvent = (success: boolean) => {
 		setCreateToastSuccess(success);
 		setShowCreateToast(true);
-		trigger("events");
+		trigger("adminevents");
 	}
 
 	const handleDelete = (eventId: number) => {
 		setCurrentEvent(eventId);
 		setShowConfirmDeleteAlert(true);
-		trigger("events");
+		trigger("adminevents");
 	}
 
 	const deleteEvent = async () => {
@@ -43,7 +43,7 @@ const EventsPage: React.FC<IProps> = (props) => {
 			await Events.delete(currentEvent);
 			setDeleteToastSuccess(true);
 			setShowDeleteToast(true);
-			trigger("events");
+			trigger("adminevents");
 		} catch {
 			setDeleteToastSuccess(false);
 			setShowDeleteToast(true);
