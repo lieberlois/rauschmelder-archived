@@ -1,19 +1,24 @@
 import React, { useState } from "react";
 import { IonPage, IonContent, IonLoading, IonToast, IonAlert } from "@ionic/react";
 import { AuthHeader } from "../../../components/Header/AuthHeader";
-import { useLoad } from "../../../hooks/UseLoad";
 import { RouteComponentProps } from "react-router";
 import { Events } from "../../../util/agent"
 import { EventList } from "../../../components/Events/EventList";
 import "./EventsPage.scss";
 import { AddEventForm } from "../../../components/Events/AddEventForm";
+import useSWR, { trigger } from "swr";
+import { IEvent } from "../../../models/event";
 
 interface IProps extends RouteComponentProps { }
 
 const EventsPage: React.FC<IProps> = (props) => {
 
-	const [isDirty, setIsDirty] = useState(true);
-	const [events, isEventsLoading] = useLoad(async () => await Events.list(), [], isDirty, () => setIsDirty(false));
+	const { data: events } = useSWR<IEvent[], Error>(
+		`events`,
+		async () => await Events.list(),
+		{ revalidateOnFocus: true }
+	)
+
 	const [showCreateToast, setShowCreateToast] = useState(false);
 	const [createToastSuccess, setCreateToastSuccess] = useState(false);
 	const [showDeleteToast, setShowDeleteToast] = useState(false);
@@ -24,12 +29,13 @@ const EventsPage: React.FC<IProps> = (props) => {
 	const onCreateEvent = (success: boolean) => {
 		setCreateToastSuccess(success);
 		setShowCreateToast(true);
-		setIsDirty(true);
+		trigger("events");
 	}
 
 	const handleDelete = (eventId: number) => {
 		setCurrentEvent(eventId);
 		setShowConfirmDeleteAlert(true);
+		trigger("events");
 	}
 
 	const deleteEvent = async () => {
@@ -37,7 +43,7 @@ const EventsPage: React.FC<IProps> = (props) => {
 			await Events.delete(currentEvent);
 			setDeleteToastSuccess(true);
 			setShowDeleteToast(true);
-			setIsDirty(true);
+			trigger("events");
 		} catch {
 			setDeleteToastSuccess(false);
 			setShowDeleteToast(true);
@@ -52,7 +58,7 @@ const EventsPage: React.FC<IProps> = (props) => {
 
 			<IonContent className="ion-padding">
 				{
-					isEventsLoading ? (
+					!events ? (
 						<IonLoading message="Laden..." duration={0} isOpen={true} />
 					) : (
 							<div className="ion-padding main">

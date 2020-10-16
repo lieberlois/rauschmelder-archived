@@ -1,17 +1,26 @@
-import React, { useState } from "react";
+import React from "react";
 import { IonPage, IonContent, IonLoading } from "@ionic/react";
 import { AuthHeader } from "../components/Header/AuthHeader";
 import { StatistikList } from "../components/StatistikList/StatistikList";
-import { useLoad } from "../hooks/UseLoad";
 import { Drinks } from "../util/agent";
 import { RouteComponentProps } from "react-router";
+import { IDrinksForEvent } from "../models/drink";
+import useSWR from "swr";
 
 interface IProps extends RouteComponentProps { }
 
 const Statistiken: React.FC<IProps> = (props) => {
 
-  const [isDirty, setIsDirty] = useState(true);
-  const [stats, isStatsLoading] = useLoad(async () => await Drinks.drinksForEvent(), [], isDirty, () => setIsDirty(false));
+  const { data: stats, error } = useSWR<IDrinksForEvent[], Error>(
+    `stats`,
+    async () => await Drinks.drinksForEvent(),
+    { revalidateOnFocus: true }
+  )
+
+  if (error)
+    return (
+      <h1>Statistiken konnten nicht geladen werden.</h1>
+    )
 
   return (
     <IonPage>
@@ -19,10 +28,10 @@ const Statistiken: React.FC<IProps> = (props) => {
 
       <IonContent className="ion-padding">
         {
-          isStatsLoading ? (
-            <IonLoading message="Laden..." duration={0} isOpen={true} />
+          stats ? (
+            <StatistikList eventStats={stats} />
           ) : (
-              <StatistikList eventStats={stats} />
+              <IonLoading message="Laden..." duration={0} isOpen={true} />
             )
         }
 

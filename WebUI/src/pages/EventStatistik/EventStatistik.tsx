@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { IonPage, IonContent } from "@ionic/react";
 import { AuthHeader } from "../../components/Header/AuthHeader";
-import { useLoad } from "../../hooks/UseLoad";
 import { Events } from "../../util/agent";
 import { RouteComponentProps } from "react-router";
 import { getEventId } from "../../util/localStorage";
@@ -10,21 +9,20 @@ import { upperFirstLetter } from "../../util/stringUtils";
 import { BarChart } from "../../components/Charts/BarChart";
 import "./EventStatistik.scss";
 import { IEventStats } from "../../models/event";
+import useSWR from "swr";
 
 interface IProps extends RouteComponentProps { }
 
 const EventStatistiken: React.FC<IProps> = (props) => {
 
-  const reloadTimeInSeconds = 10;
+  const reloadTimeInSeconds = 5;
   const amountLeaders = 5;
-  const [isDirty, setIsDirty] = useState(true);
-  const [event, , hasError] = useLoad<IEventStats | null>(async () => await Events.getLeaderboard(getEventId(), amountLeaders), null, isDirty, () => setIsDirty(false));
 
-  useEffect(() => {
-    setInterval(() => {
-      setIsDirty(true)
-    }, reloadTimeInSeconds * 1000)
-  }, [])
+  const { data: event, error } = useSWR<IEventStats, Error>(
+    `leaderboard`,
+    async () => await Events.getLeaderboard(getEventId(), amountLeaders),
+    { refreshInterval: reloadTimeInSeconds }
+  )
 
   return (
     <IonPage>
@@ -34,7 +32,7 @@ const EventStatistiken: React.FC<IProps> = (props) => {
         {
 
           <>
-            {(hasError || event === null) ? (
+            {(error || !event) ? (
               <>
                 <h1>Statistiken konnten nicht geladen werden.</h1>
               </>

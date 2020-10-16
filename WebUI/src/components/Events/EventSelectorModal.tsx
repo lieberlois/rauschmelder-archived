@@ -7,10 +7,11 @@ import {
   IonToast,
 } from "@ionic/react";
 import "./EventSelectorModal.scss"
-import { useLoad } from "../../hooks/UseLoad";
 import { Events } from "../../util/agent";
 import { dateOptionsShort } from "../../util/dateOptions";
 import { getEventId, setEventId } from "../../util/localStorage";
+import useSWR from "swr";
+import { IEvent } from "../../models/event";
 
 
 interface IProps {
@@ -20,7 +21,12 @@ interface IProps {
 
 export function EventSelectorModal({ closeModal, closeOnSelect = true }: IProps) {
 
-  const [events, isEventsLoading] = useLoad(async () => await Events.getCurrent(), []);
+  const { data: events } = useSWR<IEvent[], Error>(
+    `events`,
+    async () => await Events.getCurrent(),
+    { revalidateOnFocus: true }
+  )
+
   const [currentEvent, setCurrentEvent] = useState<number>(getEventId());
   const [showToast, setShowToast] = useState(false);
 
@@ -48,7 +54,7 @@ export function EventSelectorModal({ closeModal, closeOnSelect = true }: IProps)
           </IonCard>
         </IonHeader>
 
-        {isEventsLoading ? <IonLoading message="Laden..." duration={0} isOpen={true} /> : (
+        {!events ? <IonLoading message="Laden..." duration={0} isOpen={true} /> : (
           <div className="ion-padding">
             {events && events.length > 0 ? (
               events.map(event => (

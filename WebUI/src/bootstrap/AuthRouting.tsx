@@ -37,7 +37,7 @@ const AuthRouting: React.FC<IProps> = (props: IProps) => {
           !currentUser
             ?
 
-              <Switch>
+            <Switch>
               { /* 
                 Ideally this would be a IonRouterOutlet. Problem is: The IonRouterOutlet
                 loads pages without refreshing their props hence not refreshing essential data,
@@ -45,10 +45,10 @@ const AuthRouting: React.FC<IProps> = (props: IProps) => {
 
                 After a bit of research it appears that this is a bug in Ionic.
               */ }
-                <Route path="/login" render={() => { return <Login {...props} /> }} exact />
-                <Route path="/register" render={() => { return <Register {...props} /> }} exact />
-                <Route path="/" render={() => <Redirect to="/login" />} />
-              </Switch>
+              <Route path="/login" render={() => { return <Login {...props} /> }} exact />
+              <Route path="/register" render={() => { return <Register {...props} /> }} exact />
+              <Route path="/" render={() => <Redirect to="/login" />} />
+            </Switch>
 
 
             :
@@ -56,13 +56,13 @@ const AuthRouting: React.FC<IProps> = (props: IProps) => {
               <Sidebar user={currentUser} {...props} />
 
 
-                <Switch>
-                  <Route path="/stats" render={() => { return <Statistiken {...props} /> }} exact />
-                  <Route path="/eventstats" render={() => { return <EventStatistiken {...props} /> }} exact />
-                  {currentUser.isadmin && <Route path="/events" render={() => { return <EventsPage {...props} /> }} exact />}
-                  <Route path="/" render={() => { return <Rauschmelder {...props} /> }} exact />
-                  <Route render={() => <Redirect to="/" />} />
-                </Switch>
+              <Switch>
+                <Route path="/stats" render={() => { return <Statistiken {...props} /> }} exact />
+                <Route path="/eventstats" render={() => { return <EventStatistiken {...props} /> }} exact />
+                {currentUser.isadmin && <Route path="/events" render={() => { return <EventsPage {...props} /> }} exact />}
+                <Route path="/" render={() => { return <Rauschmelder {...props} /> }} exact />
+                <Route render={() => <Redirect to="/" />} />
+              </Switch>
             </>
 
         }

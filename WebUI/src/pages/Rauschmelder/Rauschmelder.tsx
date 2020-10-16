@@ -24,6 +24,7 @@ const Rauschmelder: React.FC<IProps> = (props) => {
   const [showSelectedEventToast, setShowSelectedEventToast] = useState(false);
 
   useAsyncEffect(async () => {
+    setLoading(true)
     const currentEvent = getEventId();
     if (currentEvent && currentEvent !== -1) {
       try {
@@ -103,7 +104,7 @@ const Rauschmelder: React.FC<IProps> = (props) => {
               cssClass={"confirm-alert"}
               buttons={[
                 {
-                  text: 'Abbrechen',
+                  text: 'Erbrechen',
                   cssClass: 'cancel-button',
                   handler: () => {
                     setCurrentDrink("");
