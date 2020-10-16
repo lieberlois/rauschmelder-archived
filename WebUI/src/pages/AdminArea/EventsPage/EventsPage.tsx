@@ -14,7 +14,7 @@ interface IProps extends RouteComponentProps { }
 const EventsPage: React.FC<IProps> = (props) => {
 
 	const { data: events } = useSWR<IEvent[], Error>(
-		`events`,
+		`adminevents`,
 		async () => await Events.list(),
 		{ revalidateOnFocus: true }
 	)

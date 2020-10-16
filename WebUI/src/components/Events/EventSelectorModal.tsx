@@ -22,9 +22,8 @@ interface IProps {
 export function EventSelectorModal({ closeModal, closeOnSelect = true }: IProps) {
 
   const { data: events } = useSWR<IEvent[], Error>(
-    `events`,
-    async () => await Events.getCurrent(),
-    { revalidateOnFocus: true }
+    `selectorevents`,
+    async () => await Events.getCurrent()
   )
 
   const [currentEvent, setCurrentEvent] = useState<number>(getEventId());
